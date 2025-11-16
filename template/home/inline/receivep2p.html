@@ -1,0 +1,167 @@
+<div class="p2p-transfer-card animate__animated animate__slideInLeft" id="p2pTransferCard">
+    <div class="mb-6 p-6 rounded-2xl glass-effect border border-purple-500/20 shadow-2xl relative overflow-hidden">
+        <div
+            class="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 backdrop-blur-sm">
+            <svg class="w-4 h-4 text-orange-400 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd" />
+            </svg>
+            <div class="text-lg font-bold text-white font-mono tabular-nums" id="p2pCountdown">01:00:00</div>
+        </div>
+        <div class="mb-6 pr-32">
+            <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Amount to Send</div>
+            <div class="flex items-baseline gap-2">
+                <div class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 font-mono"
+                    id="p2pAmount">0.00</div>
+                <div class="text-2xl text-purple-300 font-semibold" id="p2pCurrency">USD</div>
+            </div>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-purple-500/50 via-blue-500/50 to-transparent mb-6"></div>
+
+        <!-- Bank Details -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-2 mb-3">
+                <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                    <path fill-rule="evenodd"
+                        d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                        clip-rule="evenodd" />
+                </svg>
+                <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Bank Details</h4>
+            </div>
+
+            <!-- Bank Name -->
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-black/30 hover:bg-black/50 transition-colors group">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-400 transition-colors" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    <span class="text-xs text-gray-400">Bank Name</span>
+                </div>
+                <div class="flex items-center gap-2 ml-6 sm:ml-0">
+                    <span class="text-sm font-semibold text-white" id="p2pBankName">-</span>
+                    <button type="button" class="copy-btn p-1 hover:bg-white/10 rounded transition"
+                        data-copy="p2pBankName">
+                        <svg class="w-4 h-4 text-gray-400 hover:text-purple-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Name -->
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-black/30 hover:bg-black/50 transition-colors group">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-green-400 transition-colors" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-xs text-gray-400">Account Name</span>
+                </div>
+                <div class="flex items-center gap-2 ml-6 sm:ml-0">
+                    <span class="text-sm font-semibold text-white" id="p2pAccountName">-</span>
+                    <button type="button" class="copy-btn p-1 hover:bg-white/10 rounded transition"
+                        data-copy="p2pAccountName">
+                        <svg class="w-4 h-4 text-gray-400 hover:text-purple-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Number -->
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-black/30 hover:bg-black/50 transition-colors group">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-purple-400 transition-colors" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path
+                            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
+                    </svg>
+                    <span class="text-xs text-gray-400">Account Number</span>
+                </div>
+                <div class="flex items-center gap-2 ml-6 sm:ml-0">
+                    <span class="text-sm font-semibold text-white font-mono tracking-wider"
+                        id="p2pAccountNumber">-</span>
+                    <button type="button" class="copy-btn p-1 hover:bg-white/10 rounded transition"
+                        data-copy="p2pAccountNumber">
+                        <svg class="w-4 h-4 text-gray-400 hover:text-purple-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20">
+        <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="flex-1">
+                <h5 class="text-sm font-semibold text-blue-300 mb-2">Payment Instructions</h5>
+                <ol class="text-xs text-gray-300 space-y-2 list-decimal list-inside">
+                    <li>Transfer the <strong class="text-white">exact amount</strong> shown above to the bank account
+                        details</li>
+                    <li>Complete the transfer <strong class="text-white">before the countdown expires</strong></li>
+                    <li>Use the <strong class="text-white">same bank account</strong> registered with your profile</li>
+                    <li>Click <strong class="text-white">"I've Sent the Payment"</strong> button after completing the
+                        transfer</li>
+                    <li>Wait for confirmation - usually takes <strong class="text-white">5-30 minutes</strong></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warning -->
+    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20">
+        <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            <div class="text-xs text-gray-300">
+                <p class="font-semibold text-orange-300 mb-1">⚠️ Important Notice</p>
+                <p>Transfer will be <strong class="text-white">automatically cancelled</strong> if payment is not
+                    received within the time limit. Do not transfer if timer expires.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <button type="button" id="cancelP2PTransfer"
+            class="py-3 px-4 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 font-medium transition-all duration-300 clickable flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Cancel Transfer
+        </button>
+        <button type="button" id="confirmP2PPayment"
+            class="py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold transition-all duration-300 clickable flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            I've Sent the Payment
+        </button>
+    </div>
+</div>

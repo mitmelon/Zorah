@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>[$title] | [$app_name] - Dashboard</title>
+    <meta name="title" content="[$title] | [$app_name] - Decentralized Finance Platform">
+    <meta name="description" content="[$app_name] is a cutting-edge decentralized finance platform. Sign in or create an account to access secure wallet integration, trading, and DeFi services.">
+    <meta name="keywords" content="[$app_name], DeFi, decentralized finance, crypto wallet, blockchain, cryptocurrency, Polkadot, Web3, trading platform, Moonbeam, smart contracts">
+    <meta name="author" content="[$app_name] Team">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <link rel="icon" type="image/png" sizes="32x32" href="[$root]asset/script/images/brand/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="[$root]asset/script/images/brand/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="[$root]asset/script/images/brand/apple-touch-icon.png">
+    <link rel="shortcut icon" href="[$root]asset/script/images/brand/favicon.ico">
+    <link rel="manifest" href="[$root]site.webmanifest">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="[$app_domain]">
+    <meta property="og:title" content="[$title] | [$app_name] - Decentralized Finance Platform">
+    <meta property="og:description" content="Join [$app_name] - The future of decentralized finance. Secure wallet integration, seamless trading, and innovative DeFi solutions.">
+    <meta property="og:image" content="[$root]asset/script/images/brand/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="[$app_name]">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="[$app_domain]">
+    <meta name="twitter:title" content="[$title] | [$app_name] - Decentralized Finance Platform">
+    <meta name="twitter:description" content="Join [$app_name] - The future of decentralized finance. Secure wallet integration, seamless trading, and innovative DeFi solutions.">
+    <meta name="twitter:image" content="[$root]asset/script/images/brand/twitter-image.png">
+    <meta name="twitter:creator" content="@[$app_name]">
+    <meta name="twitter:site" content="@[$app_name]">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="msapplication-TileColor" content="#0a0a0a">
+    <meta name="msapplication-TileImage" content="[$root]asset/script/images/brand/ms-icon-144x144.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="[$app_name]">
+    <link rel="canonical" href="[$app_domain]">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="stylesheet" href="[$root]asset/script/css/bundle.css">
+    <link rel="stylesheet" href="[$root]asset/script/css/style.css">
+    <link rel="stylesheet" href="[$root]asset/plugin/plugin.min.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "[$app_name]",
+        "url": "[$app_domain]",
+        "description": "Decentralized finance platform providing secure wallet integration and DeFi services",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "[$app_name]",
+            "url": "[$app_domain]"
+        }
+    }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+        }
+        
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .glass-effect {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        #sidebar {
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Animate.css speed adjustments */
+        .animate__animated {
+            --animate-duration: 0.4s;
+        }
+        
+        .animate__faster {
+            --animate-duration: 0.3s;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+        
+        .dropdown {
+            display: none;
+        }
+        
+        .dropdown.active {
+            display: block;
+        }
+        
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            border: 2px solid #0a0a0a;
+        }
+        button, a, .clickable {
+            cursor: pointer;
+        }
+        
+        #openMobileMenu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Smooth scrollbar for sidebar */
+        #sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        #sidebar::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 3px;
+        }
+        
+        #sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+    </style>
+</head>
+<body class="text-gray-100 overflow-x-hidden">
+    <div id="menuOverlay" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm"></div>
+    <aside id="sidebar" class="fixed left-0 top-0 h-full w-80 glass-effect z-50 -translate-x-full lg:translate-x-0 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-12">
+                <div class="flex items-center gap-3">
+                    <img src="[$root]asset/script/images/brand/logo-bgl.png" alt="[$app_name] Logo" width="70px">
+                    <div>
+                        <h1 class="text-xl font-bold text-white">[$app_name]</h1>
+                        <span class="text-xs text-purple-400">[$app_version]</span>
+                    </div>
+                </div>
+                <button id="closeMobileMenu" class="lg:hidden text-gray-400 hover:text-white flex-shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-white">Accounts</h2>
+                </div>
+                <div class="relative">
+                    <button id="accountSelector" class="w-full rounded-xl p-4 hover:bg-gray-800/30 cursor-pointer transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3 min-w-0 flex-1">
+                                <div class="w-10 h-10 bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <h3 id="selectedAccountName" class="font-medium text-white truncate">Default Account</h3>
+                                    <p id="selectedAccountBalance" class="text-sm text-gray-400">[$default_balance]</p>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0 ml-2">
+                                <svg id="accountDropdownIcon" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </button>
+                    <div id="accountDropdownList" class="hidden absolute top-full left-0 right-0 mt-2 z-50 p-3 bg-black rounded-xl shadow-2xl animate__animated animate__fadeIn animate__faster max-h-96 overflow-y-auto">
+                        <div class="space-y-3 loadAccounts"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="mb-6">
+                <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-3">Menu</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#wallet" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 flex items-center justify-center group-hover:from-purple-500/30 group-hover:to-purple-600/30 transition-all">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Account</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#liquidity" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center group-hover:from-blue-500/30 group-hover:to-blue-600/30 transition-all">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Liquidity</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#loan" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center group-hover:from-green-500/30 group-hover:to-green-600/30 transition-all">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Loan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#bill" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 flex items-center justify-center group-hover:from-yellow-500/30 group-hover:to-yellow-600/30 transition-all">
+                                <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Bill</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#payments" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-pink-600/20 flex items-center justify-center group-hover:from-pink-500/30 group-hover:to-pink-600/30 transition-all">
+                                <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Payments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#cards" class="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all group">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 flex items-center justify-center group-hover:from-red-500/30 group-hover:to-red-600/30 transition-all">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Cards</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Mobile Menu Toggle Button -->
+    <button id="openMobileMenu" class="lg:hidden fixed top-6 left-6 z-30 w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center justify-center transition-all duration-200">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
+
+    <main class="lg:ml-80 min-h-screen">
+    <nav class="glass-effect sticky top-0 z-30">
+        <div class="px-4 lg:px-6 py-4">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 min-w-0 flex-1">
+                    <button id="hamburgerMenu" class="lg:hidden text-gray-400 hover:text-white flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    <div class="flex gap-3 overflow-x-auto no-scrollbar">
+                        <button class="px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition flex items-center gap-2 whitespace-nowrap text-sm flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span class="hidden sm:inline">History</span>
+                        </button>
+                        <button class="px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition flex items-center gap-2 whitespace-nowrap text-sm flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                            <span class="hidden sm:inline">Cards</span>
+                        </button>
+                        <button class="px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition flex items-center gap-2 whitespace-nowrap text-sm flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="hidden sm:inline">Loan</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    
+                    <div class="relative">
+                        <button id="notificationBtn" class="w-10 h-10 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition relative">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                            <span class="notification-dot"></span>
+                        </button>
+                        
+                        <!-- Notification Dropdown -->
+                        <div id="notificationDropdown" class="dropdown absolute right-0 mt-2 w-80 glass-effect rounded-xl shadow-2xl overflow-hidden">
+                            <div class="p-4 bg-gray-900/50">
+                                <h3 class="font-semibold text-white">Notifications</h3>
+                            </div>
+                            <div class="max-h-96 overflow-y-auto">
+                                <div class="p-4 hover:bg-gray-800 transition cursor-pointer bg-gray-900/30">
+                                    <div class="flex gap-3">
+                                        <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm text-white font-medium">Welcome to Talisman!</p>
+                                            <p class="text-xs text-gray-400 mt-1">Get started by adding your first account</p>
+                                            <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 hover:bg-gray-800 transition cursor-pointer">
+                                    <div class="flex gap-3">
+                                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm text-white font-medium">New staking rewards</p>
+                                            <p class="text-xs text-gray-400 mt-1">Check out the latest staking opportunities</p>
+                                            <p class="text-xs text-gray-500 mt-1">1 day ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Account -->
+                    <div class="relative">
+                        <button id="userBtn" class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-800 transition">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" class="w-8 h-8 rounded-full border-2 border-purple-500">
+                            <svg class="w-4 h-4 text-gray-400 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        
+                        <!-- User Dropdown -->
+                        <div id="userDropdown" class="dropdown absolute right-0 mt-2 w-64 glass-effect rounded-xl shadow-2xl overflow-hidden">
+                            <div class="p-4 bg-gray-900/50">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" class="w-12 h-12 rounded-full border-2 border-purple-500">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-white truncate">User Account</p>
+                                        <p class="text-xs text-gray-400 truncate">0x1234...5678</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <button class="w-full px-4 py-2 text-left hover:bg-gray-800 rounded-lg transition flex items-center gap-3 text-gray-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    <span>Profile</span>
+                                </button>
+                                <button class="w-full px-4 py-2 text-left hover:bg-gray-800 rounded-lg transition flex items-center gap-3 text-gray-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>Settings</span>
+                                </button>
+                                <button class="w-full px-4 py-2 text-left hover:bg-gray-800 rounded-lg transition flex items-center gap-3 text-gray-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                                    </svg>
+                                    <span>Preferences</span>
+                                </button>
+                                <div class="border-t border-gray-700 my-2"></div>
+                                <button id="logoutBtn" class="w-full px-4 py-2 text-left hover:bg-red-900/30 rounded-lg transition flex items-center gap-3 text-red-400">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                    </svg>
+                                    <span>Disconnect</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </nav>
+    
+    
+    

@@ -1,0 +1,13 @@
+# Directories
+node_modules/
+vendor/
+
+# Files
+package-lock.json
+composer.lock
+wallet.json
+.env.local
+error.log
+site.webmanifes
+.env
+.DS_Store

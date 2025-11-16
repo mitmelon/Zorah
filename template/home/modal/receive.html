@@ -1,0 +1,390 @@
+<div id="receiveFundModal" class="fixed inset-0 z-50 hidden overflow-y-auto flex items-center justify-center bg-gray-900/50 p-4 backdrop-blur-sm transition-opacity duration-300 currentAccount" role="dialog" aria-modal="true" account="{#account_id#}">
+    <div class="custom-modal-dialog large animate__animated animate__slideInLeft overflow-hidden rounded-2xl glass-effect shadow-lg max-w-2xl w-full">
+        <button type="button" id="closeReceiveModal" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-200 clickable" data-modal-close>
+            <span class="sr-only">Close</span> ✕
+        </button>
+        <div class="w-full">
+            <!-- Header -->
+            <div class="p-6 pb-0">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-blue-500 text-white">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white">Receive Funds</h3>
+                </div>
+                <div class="receive-tabs-container -mx-6 px-6 mb-6">
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" class="receive-tab active px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200" data-tab="direct">
+                            <span class="flex items-center gap-2 whitespace-nowrap">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                                    <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="hidden sm:inline">Direct</span>
+                            </span>
+                        </button>
+                        <button type="button" class="receive-tab px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200" data-tab="bank">
+                            <span class="flex items-center gap-2 whitespace-nowrap">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+                                </svg>
+                                <span class="hidden sm:inline">Bank Transfer</span>
+                            </span>
+                        </button>
+                        <button type="button" class="receive-tab px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200" data-tab="bridge">
+                            <span class="flex items-center gap-2 whitespace-nowrap">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="hidden sm:inline">Bridge</span>
+                            </span>
+                        </button>
+                        <button type="button" class="receive-tab px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200" data-tab="payment">
+                            <span class="flex items-center gap-2 whitespace-nowrap">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="hidden sm:inline">Payment</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="receive-tab-content active animate__animated animate__fadeIn" data-content="direct">
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-400 text-center mb-6">Share your account details directly with people having {#app_name#} account to receive deposits.</p>
+                        <div class="max-w-md mx-auto mb-6 animate__animated animate__zoomIn">
+                            <div class="glass-effect rounded-2xl p-6 border border-purple-500/30 shadow-xl">
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-center gap-2 mb-2">
+                                        <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
+                                        </svg>
+                                        <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold">Account Name</span>
+                                    </div>
+                                    <p class="text-2xl font-bold text-white text-center" id="directAccountName">{#account_name#}</p>
+                                </div>
+                                <div class="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-6"></div>
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-center gap-2 mb-2">
+                                        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
+                                            <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold">Account Number</span>
+                                    </div>
+                                    <p class="text-3xl font-mono font-bold text-green-400 tracking-wider text-center" id="directAccountNumber">{#account_number#}</p>
+                                    <button type="button" id="copyAccountDetails" class="clickable mt-3 text-xs text-purple-400 hover:text-purple-300 transition flex items-center gap-1 mx-auto">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copy Details
+                                    </button>
+                                </div>
+                                <div class="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-6"></div>
+                                <div class="text-left space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-semibold text-white">Account Type</p>
+                                            <p class="text-xs text-gray-400 mt-1 capitalize" id="directAccountType">{#account_type#}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-semibold text-white">Status</p>
+                                            <p class="text-xs text-{#status_color#}-400 mt-1">{#status#}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2 p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                            <svg class="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            <div class="text-sm text-gray-300">
+                                <p class="font-medium text-blue-300 mb-1">Share Securely</p>
+                                <p class="text-xs text-gray-400">Only share your account details with trusted sources. Never share your password or private keys.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab 2: Bank Transfer -->
+                <div class="receive-tab-content hidden" data-content="bank">
+                    <div class="space-y-4 animate__animated animate__slideInLeft finalScreen">
+                        <p class="text-sm text-gray-400">Receive funds via traditional bank transfer</p>
+
+                        <form method="post" id="bankTransferForm" class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-gray-300 mb-2">Currency <span class="text-red-400">*</span></label>
+                                <select id="bankCurrency" required name="currency" class="virtual-select w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white"></select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-300 mb-2">Amount <span class="text-red-400">*</span></label>
+                                <div class="relative">
+                                    <input type="number" name="amount" id="bankAmount" step="0.01" min="0" placeholder="0.00" required
+                                        class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white placeholder-gray-500" />
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-black/40 border border-white/10 space-y-3 transferRateLoader">
+                                <div class="text-xs font-medium text-gray-400 uppercase tracking-wide">Fee Breakdown</div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-400">Current Rate</span>
+                                        <span class="text-white font-medium" id="currentRate">$0.00</span>
+                                    </div>
+                                    <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                                        <span class="text-white font-medium">You'll Receive</span>
+                                        <span class="text-white font-semibold text-lg" id="bankNetAmount">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium transition-all duration-300 clickable" id="submitBankTransfer">
+                                Generate Transfer Instructions
+                            </button>
+                        </form>
+                    </div>
+                </div> 
+                <!-- Tab 3: Bridge (staged like nodebuild, black/purple theme) -->
+                <div class="receive-tab-content hidden" data-content="bridge">
+                    <div class="space-y-4">
+                        <div id="bridgeStepWallet" class="space-y-4">
+                            <div id="bridgeWalletStats" class="hidden text-xs text-gray-300 px-3 py-2 rounded-lg bg-black/40 border border-white/10"></div>
+                            <div id="bridgeWalletList" class="space-y-2"></div>
+                            <div id="bridgeNoWallet" class="hidden text-center py-6">
+                                <svg class="w-10 h-10 mx-auto text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <h5 class="text-sm font-semibold text-white mb-1">No Wallets Detected</h5>
+                                <p class="text-xs text-gray-400 mb-3">Install MetaMask, SubWallet, or another supported wallet to continue.</p>
+                                <a href="https://metamask.io/download/" target="_blank" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-xs font-medium text-white">Install MetaMask</a>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Bridge Form (shows after connect) -->
+                        <div id="bridgeStepForm" class="hidden space-y-4">
+                            <!-- Wallet panel -->
+                            <div id="bridgeWalletPanel" class="flex items-center justify-between p-3 rounded-lg bg-black/60 border border-purple-500/30 mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+                                        W
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-400">Connected Wallet</p>
+                                        <p id="bridgeConnectedAddress" class="text-sm font-mono text-white">0x...</p>
+                                    </div>
+                                </div>
+                                <button type="button" id="bridgeDisconnectWallet" class="text-xs text-red-400 hover:text-red-300">
+                                    Disconnect
+                                </button>
+                            </div>
+
+                            <form id="bridgeForm" class="space-y-4 mt-2 mt-5">
+                                <div>
+                                    <label class="block text-xs text-gray-300 mb-2">Source Chain <span class="text-red-400">*</span></label>
+                                    <select id="bridgeSourceChain" required class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white">
+                                        <option value="">Select source chain</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-gray-300 mb-2">Asset <span class="text-red-400">*</span></label>
+                                    <select id="bridgeAsset" required class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white"></select>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <label class="block text-xs text-gray-300">Amount <span class="text-red-400">*</span></label>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="number" id="bridgeAmount" step="0.01" min="0" placeholder="0.00" required
+                                               class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white placeholder-gray-500" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-gray-300 mb-2">Destination Address on Moonbeam <span class="text-red-400">*</span></label>
+                                    <input type="text" id="bridgeDestination" placeholder="0x..." required value="{#wallet_address#}"
+                                           class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white font-mono text-sm placeholder-gray-500" readonly/>
+                                </div>
+
+                                <!-- Bridge Info Card -->
+                                <div class="p-4 rounded-lg bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 space-y-3">
+                                    <div class="flex items-center gap-2 text-sm font-medium text-indigo-300">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Bridge Details
+                                    </div>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-400">Estimated Time</span>
+                                            <span class="text-white">2-5 minutes</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-400">Bridge Fee</span>
+                                            <span class="text-white" id="bridgeFee">-</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-400">Gas Fee</span>
+                                            <span class="text-white" id="bridgeGasFee">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium transition-all duration-300 clickable">
+                                    Continue
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Step 3: Processing (multi-stage) -->
+                        <div id="bridgeStepProcessing" class="hidden space-y-3 mt-5">
+                            <p class="text-sm text-gray-400">Processing bridge transaction. Confirm each step in your wallet.</p>
+                            <div class="space-y-3">
+                                <div id="bridgeStepApproval" class="flex items-start gap-3 p-3 rounded-lg bg-black/60 border border-white/10">
+                                    <div id="bridgeStepApprovalIcon" class="w-5 h-5 mt-0.5 rounded-full border-2 border-gray-500"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-semibold text-white">Token Approval</p>
+                                        <p class="text-xs text-gray-400">Approving Zorah Bridge to spend your tokens</p>
+                                        <a id="bridgeStepApprovalLink" href="#" target="_blank" class="hidden text-xs text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1">
+                                            View transaction
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="bridgeStepGas" class="flex items-start gap-3 p-3 rounded-lg bg-black/60 border border-white/10">
+                                    <div id="bridgeStepGasIcon" class="w-5 h-5 mt-0.5 rounded-full border-2 border-gray-500"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-semibold text-white">Gas Payment</p>
+                                        <p class="text-xs text-gray-400">Paying cross-chain gas fees</p>
+                                        <a id="bridgeStepGasLink" href="#" target="_blank" class="hidden text-xs text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1">
+                                            View transaction
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="bridgeStepBridge" class="flex items-start gap-3 p-3 rounded-lg bg-black/60 border border-white/10">
+                                    <div id="bridgeStepBridgeIcon" class="w-5 h-5 mt-0.5 rounded-full border-2 border-gray-500"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-semibold text-white">Bridge Transaction</p>
+                                        <p class="text-xs text-gray-400">Sending through cross-chain gateway</p>
+                                        <a id="bridgeStepBridgeLink" href="#" target="_blank" class="hidden text-xs text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1">
+                                            View transaction
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Final actions and status -->
+                            <div class="pt-2">
+                                <button id="bridgeCheckStatusBtn" type="button" class="hidden w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium transition-all duration-300 clickable">
+                                    Check Bridge Status
+                                </button>
+                                <div id="bridgeStatusBox" class="hidden mt-3 p-3 rounded-lg bg-black/60 border border-white/10 text-sm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 4: Payment -->
+                <div class="receive-tab-content hidden" data-content="payment">
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-400">Generate payment request for crypto tokens</p>
+                        
+                        <form id="paymentForm" class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-gray-300 mb-2">Token <span class="text-red-400">*</span></label>
+                                <select id="paymentToken" required class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white">
+                                    <option value="">Select token</option>
+                                    <option value="USDT">USDT - Tether USD</option>
+                                    <option value="USDC">USDC - USD Coin</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs text-gray-300 mb-2">Amount <span class="text-red-400">*</span></label>
+                                <input type="number" id="paymentAmount" step="0.01" min="0" placeholder="0.00" required
+                                    class="w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white placeholder-gray-500" />
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs text-gray-300 mb-2">Chain <span class="text-red-400">*</span></label>
+                                <select id="paymentChain" required class="virtual-select w-full px-4 py-3 rounded-lg bg-black focus:outline-none focus:ring-0 text-white loadChains">
+                                    <option value="">Select chain</option>
+                                    <option value="ethereum">Ethereum (ERC-20)</option>
+                                    <option value="bsc">BSC (BEP-20)</option>
+                                    <option value="polygon">Polygon</option>
+                                    <option value="arbitrum">Arbitrum</option>
+                                    <option value="optimism">Optimism</option>
+                                    <option value="avalanche">Avalanche C-Chain</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Chain Fee Card -->
+                            <div class="p-4 rounded-lg bg-black/40 border border-white/10 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-xs font-medium text-gray-400 uppercase tracking-wide">Network Fees</div>
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                        <span class="text-xs text-green-400" id="networkStatus">Network Active</span>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-400">Gas Price</span>
+                                        <span class="text-white font-medium" id="paymentGasPrice">-</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-400">Estimated Fee</span>
+                                        <span class="text-white font-medium" id="paymentEstimatedFee">-</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-400">Confirmation Time</span>
+                                        <span class="text-white font-medium" id="paymentConfirmTime">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium transition-all duration-300 clickable">
+                                Generate Payment Request
+                            </button>
+                        </form>
+                        
+                        <!-- Security Note -->
+                        <div class="flex items-start gap-2 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                            <svg class="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            <div class="text-sm">
+                                <p class="font-medium text-yellow-300 mb-1">Verify Payment Details</p>
+                                <p class="text-xs text-gray-400">Always double-check the payment address and amount before confirming transactions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{#csrf#}

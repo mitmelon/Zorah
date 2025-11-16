@@ -1,0 +1,68 @@
+{
+  "name": "cosmocent",
+  "version": "1.0.0",
+  "description": "decentralized fiat bank built on pokadot",
+  "keywords": [],
+  "homepage": "https://github.com/mitmelon/cosmocent#readme",
+  "bugs": {
+    "url": "https://github.com/mitmelon/cosmocent/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitmelon/cosmocent.git"
+  },
+  "license": "MIT",
+  "author": "George",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "dev": "webpack --mode=development --watch",
+    "clean": "rm -rf dist/*",
+    "start": "node index.js --watch",
+    "build:css": "npx @tailwindcss/cli -i ./asset/style.css -o ./asset/script/css/bundle.css",
+    "serve": "nodemon index.js"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.4",
+    "@msgpack/msgpack": "^3.1.2",
+    "@polkadot/util-crypto": "^13.5.7",
+    "@tailwindcss/cli": "^4.1.11",
+    "assert": "2.1.0",
+    "buffer": "6.0.3",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "core-js": "3.38.1",
+    "crypto-browserify": "3.12.0",
+    "dexie": "^4.2.1",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.8.0",
+    "express-session": "^1.18.2",
+    "helmet": "^7.0.0",
+    "https-browserify": "1.0.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.19.1",
+    "nodemon": "^3.1.10",
+    "os-browserify": "0.3.0",
+    "path-browserify": "1.0.1",
+    "peerjs": "1.4.7",
+    "process": "0.11.10",
+    "stream-browserify": "3.0.0",
+    "stream-http": "3.2.0",
+    "tailwindcss": "^4.1.11",
+    "url": "0.11.4",
+    "util": "0.12.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@babel/preset-env": "^7.26.0",
+    "babel-loader": "^9.2.1",
+    "copy-webpack-plugin": "12.0.2",
+    "webpack": "5.94.0",
+    "webpack-cli": "5.1.4"
+  }
+}

@@ -1,0 +1,81 @@
+        
+        
+        <div class="mb-8 animate-fade-in currentAccount" account="{#account_id#}">
+            <div class="flex items-center gap-2 mb-3">
+                <svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-gray-400 text-sm font-medium">{#account_name#}</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white break-all">{#balance#}</h1>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2 sm:gap-3 mb-8 lg:mb-12 animate-fade-in fund-management" id="{#account_id#}">
+            <button class="px-4 sm:px-6 py-2 sm:py-3 glass-effect rounded-xl hover-lift flex items-center gap-2 text-white font-medium text-sm sm:text-base sendFund">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+                Send
+            </button>
+            <button class="px-4 sm:px-6 py-2 sm:py-3 glass-effect rounded-xl hover-lift flex items-center gap-2 text-white font-medium text-sm sm:text-base receiveFund">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                Receive
+            </button>
+            <button class="px-4 sm:px-6 py-2 sm:py-3 glass-effect rounded-xl hover-lift flex items-center gap-2 text-white font-medium text-sm sm:text-base withdrawFund">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+                Withdraw
+            </button>
+            
+        </div>
+        <div class="animate-fade-in">
+            <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">Get Started</h2>
+            <p class="text-gray-400 mb-6 text-sm sm:text-base">Add an account and add funds to get started</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                <div class="glass-effect rounded-xl p-6 hover-lift cursor-pointer group openAccountModal">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-2">Add account</h3>
+                    <p class="text-gray-400 text-sm sm:text-base">You can create up to 5 accounts with different currencies.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6 hover-lift cursor-pointer group">
+                    <a href="{#root#}history" class="block">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-2">History</h3>
+                    <p class="text-gray-400 text-sm sm:text-base">View your transaction history to see your recent activity.</p>
+                </a>
+                </div>
+            </div>
+            <div class="glass-effect rounded-xl p-6 hover-lift cursor-pointer group">
+                <a href="{#root#}developer/integration" class="block">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4 min-w-0 flex-1">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-lg sm:text-xl font-semibold text-white mb-1">Learn More</h3>
+                            <p class="text-gray-400 text-sm sm:text-base">Integrate {#app_name#} into your platform for payment collections worldwide</p>
+                        </div>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-white group-hover:translate-x-2 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                </a>
+            </div>
+        </div>

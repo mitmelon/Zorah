@@ -1,0 +1,98 @@
+<div class="p2p-confirmation-card animate__animated animate__fadeIn" id="p2pConfirmationCard">
+    <div class="mb-6 text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 mb-4">
+            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Payment Confirmation</h3>
+        <p class="text-sm text-gray-400">Waiting for payment vendor to confirm receipt</p>
+    </div>
+    <div class="mb-6 p-6 rounded-2xl glass-effect border border-purple-500/20 shadow-2xl relative overflow-hidden">
+        <button type="button" id="cancelP2PTransfer" class="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-medium transition-all duration-300 clickable group cursor-pointer">
+            <svg class="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Cancel 
+        </button>
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 pointer-events-none"></div>
+        <div class="relative flex flex-col items-center justify-center py-8 p2pStatusUpdate">
+            <div class="text-center space-y-2">
+                <p class="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400">
+                    Verification in Progress
+                </p>
+                <p class="text-sm text-gray-400">
+                    Payment vendor is reviewing your payment...
+                </p>
+            </div>
+            <div class="relative w-8 h-8 mb-4 mt-5">
+                <div class="absolute inset-0 rounded-full border-4 border-purple-500/20"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-purple-500 border-r-blue-500 animate-spin"></div>
+            </div>
+        </div>
+        <div class="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-6"></div>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-lg bg-black/30">
+                <span class="text-xs text-gray-400">Transaction ID</span>
+                <span class="text-sm font-mono text-purple-300" id="confirmEscrowId">{#escrow_id#}</span>
+            </div>
+            <div class="flex items-center justify-between p-3 rounded-lg bg-black/30">
+                <span class="text-xs text-gray-400">Amount Sent</span>
+                <span class="text-sm font-semibold text-white" id="confirmAmount">{#deposit_amount#}</span>
+            </div>
+            <div class="flex items-center justify-between p-3 rounded-lg bg-black/30">
+                <span class="text-xs text-gray-400">Status</span>
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-medium">
+                    <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                    Pending Confirmation
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20">
+        <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="flex-1">
+                <h5 class="text-sm font-semibold text-blue-300 mb-2">What Happens Next?</h5>
+                <ul class="text-xs text-gray-300 space-y-1.5">
+                    <li>• Payment vendor will verify receipt in their bank account</li>
+                    <li>• Confirmation typically takes <strong class="text-white">5-30 minutes</strong></li>
+                    <li>• Funds will be released to your account once confirmed</li>
+                    <li>• You'll receive a notification when status changes</li>
+                    <li>• If you have payment issues (bank reversal, wrong amount, etc.), click <strong class="text-white">Cancel</strong> to start over</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+        <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            <div class="text-xs text-gray-300">
+                <p class="font-semibold text-purple-300 mb-1">Having Issues?</p>
+                <p>If the payment vendor hasn't confirmed after <strong class="text-white">1 hour</strong>, or if there's any problem with your payment, you can create a dispute or submit evidence below.</p>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <button type="button" id="createDispute"
+            class="py-3 px-4 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 font-medium transition-all duration-300 clickable flex items-center justify-center gap-2 group">
+            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Create Dispute
+        </button>
+        <button type="button" id="submitEvidence"
+            class="py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold transition-all duration-300 clickable flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30 group">
+            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Submit Evidence
+        </button>
+    </div>
+</div>

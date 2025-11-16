@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no">
+    <!--[if mso]>
+    <style>
+        * { font-family: Arial, sans-serif !important; }
+    </style>
+    <![endif]-->
+    <title>{#lang_service_request#}</title>
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #0a0a0a;
+        }
+        
+        /* Container */
+        .email-wrapper {
+            width: 100%;
+            background-color: #0a0a0a;
+            padding: 20px 0;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Header */
+        .email-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        
+        .logo-container img {
+            max-width: 150px;
+            height: auto;
+            display: inline-block;
+        }
+        
+        .email-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .email-subtitle {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+        
+        /* Content */
+        .email-content {
+            padding: 40px 30px;
+            background-color: #1a1a1a;
+        }
+        
+        .message-box {
+            background-color: rgba(31, 41, 55, 0.6);
+            border-left: 4px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 20px 0;
+            color: #e5e7eb;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        .message-box b,
+        .message-box strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .message-box a {
+            color: #a78bfa;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .message-box a:hover {
+            color: #8b5cf6;
+            text-decoration: underline;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #8b5cf6;
+            color: #ffffff !important;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #7c3aed;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.3), transparent);
+            margin: 30px 0;
+        }
+        
+        .info-box {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        
+        .info-box strong {
+            color: #a78bfa;
+        }
+        
+        .email-footer {
+            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        .footer-links {
+            margin: 20px 0 10px 0;
+        }
+        
+        .footer-links a {
+            color: #8b5cf6;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 12px;
+        }
+        
+        .footer-links a:hover {
+            color: #a78bfa;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 15px;
+        }
+        
+        .security-badge {
+            display: inline-block;
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                border-radius: 0;
+                margin: 0;
+            }
+            
+            .email-content {
+                padding: 30px 20px;
+            }
+            
+            .message-box {
+                padding: 20px;
+            }
+            
+            .email-title {
+                font-size: 20px;
+            }
+            
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+        @media (prefers-color-scheme: dark) {
+            .email-container {
+                background-color: #1a1a1a !important;
+            }
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0;background-color:#0a0a0a;">
+    <div style="display:none;font-size:1px;color:#0a0a0a;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+        {#lang_service_request#} - Important notification from your account
+    </div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0a0a0a;padding:20px 0;">
+        <tr>
+            <td align="center" style="padding:0;">
+                <table role="presentation" class="email-container" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;background-color:#1a1a1a;border-radius:16px;overflow:hidden;">
+                    <tr>
+                        <td class="email-header" style="background:linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);padding:30px 20px;text-align:center;border-bottom:1px solid rgba(139, 92, 246, 0.2);">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td class="logo-container" style="text-align:center;margin-bottom:20px;">
+                                        <img src="{#logo#}" alt="Logo" width="150" style="max-width:150px;height:auto;display:inline-block;border:0;" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h1 class="email-title" style="font-size:24px;font-weight:600;color:#ffffff;margin:0;padding:0;">
+                                            {#lang_service_request#}
+                                        </h1>
+                                        <p class="email-subtitle" style="font-size:14px;color:#9ca3af;margin-top:8px;">
+                                            Important notification from your account
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="email-content" style="padding:40px 30px;background-color:#1a1a1a;">
+                            
+                            <!-- Cancellation Alert -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:30px;">
+                                <tr>
+                                    <td style="background:linear-gradient(135deg, #dc2626 0%, #991b1b 100%);border-radius:12px;padding:24px;text-align:center;box-shadow:0 4px 12px rgba(220, 38, 38, 0.3);">
+                                        <div style="font-size:48px;margin-bottom:12px;">🚫</div>
+                                        <h2 style="color:#ffffff;font-size:22px;font-weight:700;margin:0 0 10px 0;">Payment Request Cancelled</h2>
+                                        <p style="color:#fecaca;font-size:15px;margin:0;line-height:1.6;">
+                                            This payment request has been cancelled
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Transaction Details -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:30px 0;">
+                                <tr>
+                                    <td style="background:linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%);border:1px solid rgba(139, 92, 246, 0.3);border-radius:12px;padding:24px;">
+                                        <h3 style="color:#a78bfa;font-size:16px;font-weight:600;margin:0 0 20px 0;padding-bottom:12px;border-bottom:1px solid rgba(139, 92, 246, 0.2);">
+                                            📋 Cancelled Transaction Details
+                                        </h3>
+                                        
+                                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                            <tr>
+                                                <td style="padding:12px 0;border-bottom:1px solid rgba(139, 92, 246, 0.1);">
+                                                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                        <tr>
+                                                            <td style="color:#9ca3af;font-size:13px;width:40%;">Transaction ID</td>
+                                                            <td style="color:#ffffff;font-size:14px;font-weight:600;text-align:right;font-family:'Courier New', monospace;">
+                                                                TRX-{#trans_id#}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td style="padding:12px 0;">
+                                                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                        <tr>
+                                                            <td style="color:#9ca3af;font-size:13px;width:40%;">Status</td>
+                                                            <td style="text-align:right;">
+                                                                <span style="background-color:rgba(220, 38, 38, 0.2);color:#ef4444;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600;display:inline-block;">
+                                                                    CANCELLED
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Important Information -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:30px 0;">
+                                <tr>
+                                    <td style="background-color:rgba(251, 191, 36, 0.1);border-left:4px solid #f59e0b;border-radius:8px;padding:20px;">
+                                        <h4 style="color:#fbbf24;font-size:15px;font-weight:700;margin:0 0 12px 0;">⚠️ What This Means</h4>
+                                        <ul style="margin:0;padding-left:20px;color:#e5e7eb;">
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                The 1-hour payment window has expired
+                                            </li>
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                <strong style="color:#fbbf24;">Do NOT send money</strong> to any account details from the original request
+                                            </li>
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                The escrow has been automatically cancelled for your protection
+                                            </li>
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                No funds have been deducted from your account
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Next Steps -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:30px 0;">
+                                <tr>
+                                    <td style="background-color:rgba(139, 92, 246, 0.1);border:1px solid rgba(139, 92, 246, 0.3);border-radius:8px;padding:20px;">
+                                        <h4 style="color:#a78bfa;font-size:15px;font-weight:700;margin:0 0 12px 0;">🔄 What You Can Do Next</h4>
+                                        <p style="color:#e5e7eb;font-size:14px;margin:0 0 12px 0;line-height:1.6;">
+                                            If you still need to make this payment, you can:
+                                        </p>
+                                        <ol style="margin:0;padding-left:20px;color:#e5e7eb;">
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                Log into your dashboard
+                                            </li>
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                Create a new payment request
+                                            </li>
+                                            <li style="margin:8px 0;font-size:14px;line-height:1.6;">
+                                                Complete the payment within the 1-hour window
+                                            </li>
+                                        </ol>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Escrow Protection Notice -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:25px 0;">
+                                <tr>
+                                    <td style="background-color:rgba(16, 185, 129, 0.1);border-left:4px solid #10b981;border-radius:6px;padding:16px;">
+                                        <p style="color:#10b981;font-size:13px;margin:0;line-height:1.5;">
+                                            ✓ <strong>Secure Escrow Protection:</strong> <span style="color:#9ca3af;">Your funds are protected by our escrow system. Money will only be released when both parties confirm the transaction.</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Support Info -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:30px;">
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <p style="color:#6b7280;font-size:13px;margin:0;">
+                                            Need help? Contact support at <a href="mailto:{#support_mail#}" style="color:#8b5cf6;text-decoration:none;font-weight:600;">{#support_mail#}</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="email-footer" style="background:linear-gradient(135deg, #111111 0%, #1a1a1a 100%);padding:30px 20px;text-align:center;border-top:1px solid rgba(139, 92, 246, 0.2);">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <span class="security-badge" style="display:inline-block;background-color:rgba(16, 185, 129, 0.1);border:1px solid rgba(16, 185, 129, 0.3);color:#10b981;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600;">
+                                            ✓ Verified & Secure
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="footer-text" style="font-size:12px;color:#6b7280;padding-top:10px;">
+                                        You are receiving this email because you have an account with us.<br>
+                                        This is an automated message, please do not reply to this email.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="copyright" style="font-size:11px;color:#4b5563;padding-top:15px;">
+                                        © {#footer#}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
