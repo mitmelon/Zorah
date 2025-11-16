@@ -27,7 +27,7 @@
 
 ### 🎯 **In Simple Terms:**
 
-Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that baby ran on **blockchain** but felt like a normal banking app. That's Zorah.
+Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that baby ran on **blockchain** but felt like a normal banking app. That's Zorah. So we can say that, Zorah is an hybrid offspring for next generation payments. Its the future of banking.
 
 **What you can do with Zorah:**
 
@@ -1143,7 +1143,7 @@ Copyright © 2025 Zorah Protocol
 ### 🌐 **Get in Touch**
 
 📧 **Email:** manomitehq@gmail.com  
-📱 **Twitter:** [@mitmelon](https://twitter.com/zorahteams)  
+📱 **Twitter:** [@ZorahTeams](https://twitter.com/zorahteams)  
 
 ---
 
