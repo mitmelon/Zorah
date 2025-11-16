@@ -21,6 +21,111 @@
 
 </div>
 
+## 💡 What is Zorah?
+
+**Zorah is a global banking protocol that makes crypto feel like traditional banking—simple, secure, and familiar—while delivering the power of blockchain underneath.**
+
+### 🎯 **In Simple Terms:**
+
+Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that baby ran on **blockchain** but felt like a normal banking app. That's Zorah.
+
+**What you can do with Zorah:**
+
+```
+🏦  Open an account with a simple 11-digit number (like 12345-678901)
+    → No scary "0x..." addresses
+    → No seed phrases to memorize
+    → Just a familiar account number
+
+💸  Send money to anyone, anywhere, instantly
+    → 1% fee (capped at $10) vs 6-8% traditional banks
+    → Settle in seconds, not days
+    → No forex markups or hidden fees
+
+🔒  Create secure escrow for P2P/B2B deals
+    → Buy/sell without trust
+    → Automated dispute resolution
+    → Smart contracts handle the rest
+
+🌉  Deposit from any blockchain
+    → Bridge funds from Ethereum, Avalanche, Polygon, etc.
+    → Everything settles as stablecoins on Moonbeam
+    → You see USD balance, not crypto complexity
+
+💰  Earn yield on your balance
+    → 60% yield goes to you, 40% to Zorah
+    → No lock-up periods
+    → Withdraw anytime
+
+🛍️  Accept global payments (for businesses)
+    → 0.25% processing fee (vs 2.9% Stripe)
+    → Instant settlement
+    → No chargebacks
+```
+
+### 🧠 **The Core Innovation:**
+
+**You interact with account numbers. The blockchain handles everything else.**
+
+- ✅ **Your wallet?** Encrypted and hidden behind your account number.
+- ✅ **Gas fees?** Abstracted. Moonbeam's $0.01 costs are invisible.
+- ✅ **Bridging?** Automatic. Axelar/Stargate works behind the scenes.
+- ✅ **Smart contracts?** Silent. They settle transactions trustlessly.
+
+**Result:** Banking UX + Blockchain power + Zero complexity
+
+### 🌍 **Who is Zorah for?**
+
+<table>
+<tr>
+<td width="50%">
+
+**💼 Individuals:**
+- Freelancers receiving international payments
+- Migrants sending remittances home
+- Crypto users tired of confusing wallets
+- Anyone needing low-cost global transfers
+- Savers seeking better yield than banks
+
+</td>
+<td width="50%">
+
+**🏢 Businesses:**
+- E-commerce stores accepting global payments
+- B2B companies needing escrow for deals
+- Startups paying remote contractors
+- Merchants tired of 3% Stripe/PayPal fees
+- Cross-border traders needing fast settlement
+
+</td>
+</tr>
+</table>
+
+### 🎬 **Quick Example:**
+
+**Traditional Bank:**
+> "I want to send $100 from Nigeria to Kenya"
+> - Fee: $8 (8%)
+> - Time: 3-5 days
+> - Recipient gets: $92
+
+**Crypto Wallet (MetaMask):**
+> "I want to bridge USDC from Ethereum to Polygon"
+> - Gas fee: $15
+> - Bridge fee: $2
+> - Confusing addresses: 0x7a2f...3d9e
+> - Time: 30 minutes
+> - Recipient confusion: "What's a wallet?"
+
+**Zorah:**
+> "I want to send $100 to account 98765-432109"
+> - Fee: $1 (1%, capped at $10)
+> - Time: 10 seconds
+> - Recipient gets: $99
+> - UX: Just like Venmo
+
+---
+
 ## 🎯 The Problem We're Solving
 
 ### 🌍 The Global Payment Crisis
@@ -134,34 +239,7 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 💰 Four Deposit Methods Explained
 
-Zorah supports **four deposit methods**, all routed into Moonbeam-based balances:
-
-#### 1️⃣ **Direct Account-to-Account (A2A) Deposit**
-- Transfer funds directly between Zorah accounts using 11-digit account numbers
-- Instant settlement on Moonbeam smart contracts
-- Zero external fees, only platform fee applies
-
-#### 2️⃣ **Bank Transfer via P2P Escrow**
-- User deposits fiat by paying approved **liquidity partners (LPs)**
-- LP confirms receipt → sends stablecoins to user's Zorah wallet on Moonbeam
-- Smart contract updates user's account balance
-- **Eliminates high bridging fees** for fiat deposits
-
-#### 3️⃣ **Cross-Chain Stablecoin Deposit (Bridge)**
-- **Used only for depositing funds into Moonbeam**, not for chain-to-chain transfers
-- Currently supported via **Axelar** during development
-- Migrating to **LayerZero's Stargate** for lower fees and faster settlement
-- Flow: `External Wallet → Axelar/Stargate → Moonbeam → Zorah Contract → User Balance`
-
-#### 4️⃣ **Merchant Payment Collections**
-- Businesses use **Zorah Payment Processor** (0.25% fee, capped at $10)
-- Customer pays → Merchant receives → Funds settle on Moonbeam
-- Automatically reflected as a deposit for the merchant
-- Global payment acceptance without forex complexity
-
----
 
 ## ⚡ What's Working NOW
 
@@ -275,13 +353,9 @@ Block Explorer: https://moonbase.moonscan.io
 ### 📋 Prerequisites
 
 ```bash
-✅ PHP 8.3+                    # Modern PHP with JIT compiler
-✅ Composer 2.x                # Dependency management
-✅ Node.js 18+                 # For Tailwind CSS build
-✅ MongoDB 6.0+                # Document database
-✅ Redis 7.0+                  # Caching layer
-✅ MetaMask Wallet             # For testing deposits
-✅ Moonbeam Testnet Tokens     # From faucet
+✅ XAMPP or Laragon             # All-in-one PHP, MySQL, Apache
+✅ MetaMask Wallet              # For testing cross-chain deposits
+✅ Moonbeam Testnet Tokens      # From faucet (optional)
 ```
 
 ### 📦 Installation
@@ -289,55 +363,40 @@ Block Explorer: https://moonbase.moonscan.io
 **Step 1: Clone Repository**
 
 ```bash
-git clone https://github.com/mitmelon/Zorah.git
-cd Zorah
+# Clone into your XAMPP/Laragon www directory
+cd C:\xampp\htdocs  # or C:\laragon\www
+git clone https://github.com/mitmelon/Zorah.git zorah
 ```
 
-**Step 2: Backend Setup**
+**Step 2: Install Dependencies**
 
 ```bash
-# Install PHP dependencies
+cd zorah
 composer install
+```
 
+**Step 3: Configure Environment**
+
+```bash
 # Copy environment file
 cp .env.example .env
 
-# Configure your .env file:
-# - MOONBEAM_RPC_URL=https://rpc.api.moonbase.moonbeam.network
-# - MONGODB_URI=mongodb://localhost:27017/zorah
-# - REDIS_HOST=localhost
-# - REDIS_PORT=6379
-# - AXELAR_ENV=testnet
+# Edit .env with your database settings
+# Most defaults work out of the box with XAMPP/Laragon
 ```
 
-**Step 3: Frontend Build**
+**Step 4: Start & Access**
 
 ```bash
-# Install Node dependencies
-npm install
+# Start XAMPP/Laragon (Apache + MySQL)
+# Then visit:
+http://localhost/zorah
 
-# Build Tailwind CSS
-npm run build
-
-# For development with live reload
-npm run dev
+# Or use PHP built-in server:
+php -S localhost:8000
 ```
 
-**Step 4: Start Services**
-
-```bash
-# Start MongoDB (if not running)
-mongod --dbpath /path/to/data
-
-# Start Redis (if not running)
-redis-server
-
-# Start PHP development server
-php -S localhost:8000 -t public
-
-# Open browser
-open http://localhost:8000
-```
+**That's it! 🎉**
 
 ---
 
@@ -442,12 +501,12 @@ Dashboard shows:
 └──────────────────┘
 ```
 
-### 🎨 Deposit Methods (4 Tabs UI)
+### 🎨 Deposit Methods
 
 <table>
 <tr>
-<th>Tab</th>
 <th>Method</th>
+<th>Description</th>
 <th>Status</th>
 </tr>
 <tr>
@@ -472,47 +531,12 @@ Dashboard shows:
 </tr>
 </table>
 
-### 💸 Withdrawal Architecture
+### 💸 Withdrawal Methods
 
-Zorah's withdrawal system **avoids unnecessary bridging costs** through smart design:
+**Primary:** P2P fiat settlement via liquidity partners (zero bridging fees)  
+**Optional:** Direct crypto withdrawal to Moonbeam wallet, or bridge to other chains (user pays fees)
 
-#### 🏦 **Primary Withdrawal Method - P2P Fiat Settlement**
-
-**Cost-efficient, fast, suitable for large user volumes:**
-
-```
-1. User requests fiat withdrawal
-2. Smart contract locks user's stablecoins
-3. Liquidity Partner (LP) pays user in fiat
-4. LP receives the locked stablecoins
-```
-
-**Benefits:**
-- ✅ **Near-zero fees** (no bridging costs)
-- ✅ **Fast settlement** (minutes, not hours)
-- ✅ **Direct to bank account** (no crypto knowledge needed)
-- ✅ **Scalable** for high volumes
-
-#### 🌉 **Optional Withdrawal Methods**
-
-For users who want crypto withdrawals:
-
-**1. Crypto Withdrawal to Moonbeam Wallet**
-- User requests withdrawal → Smart contract releases stablecoins
-- Sent directly to user's external wallet on Moonbeam
-- **Lowest cost option** for crypto users
-
-**2. Bridge to Other Polkadot Parachains**
-- Optional bridging from Moonbeam to other parachains
-- Uses XCM (Cross-Consensus Messaging) protocol
-- Fee-dependent, user's choice
-
-**3. Bridge to External Chains (Ethereum, BNB, Polygon, etc.)**
-- Optional withdrawal via Stargate bridge
-- User pays bridging fees directly
-- Flexible but more expensive
-
-> **Design Philosophy:** Keep default withdrawal cost near zero through LP network, while providing optional on-chain paths for crypto-native users.
+**Design Philosophy:** Default withdrawals avoid expensive bridging costs through LP network, while providing optional on-chain paths for crypto-native users.
 
 ---
 
@@ -573,42 +597,7 @@ enum TransactionStatus: string {
 
 </div>
 
-#### 🏗️ Architecture Separation (Best Practice)
-
-```
-┌─────────────────────────────────────┐
-│   APPLICATION LAYER (PHP 8.3)      │
-│                                     │
-│  • User management & auth           │
-│  • Business logic & API             │
-│  • Caching (Redis) & DB (MongoDB)   │
-│  • Transaction history              │
-│  • KYC/AML compliance               │
-│                                     │
-└──────────────┬──────────────────────┘
-               │
-               │ JSON-RPC / Web3.php
-               │
-┌──────────────▼──────────────────────┐
-│   SETTLEMENT LAYER (Moonbeam)      │
-│                                     │
-│  • Smart contracts (Solidity)       │
-│  • Token transfers & approvals      │
-│  • Escrow & dispute logic           │
-│  • Consensus & security             │
-│  • Immutable transaction ledger     │
-│                                     │
-└─────────────────────────────────────┘
-```
-
-**This separation enables:**
-- ✅ Traditional businesses to integrate without learning Solidity
-- ✅ Backend logic changes without redeploying contracts
-- ✅ Easy scaling (PHP horizontal scaling is well-understood)
-- ✅ Fallback mechanisms if blockchain is temporarily unreachable
-- ✅ Compliance layer for regulations (KYC/AML)
-
-#### 🛠️ Battle-Tested Libraries
+#### 🛠️ Libraries
 
 ```bash
 ✅ Web3.php          # Full Ethereum JSON-RPC client
@@ -628,103 +617,15 @@ We considered Node.js but chose PHP because:
 4. **💾 Memory Efficiency** - Request-scoped model uses less RAM
 5. **🔄 Process Isolation** - Crashes don't affect other requests
 
-> **Bottom Line:** PHP 8.3 is a **first-class citizen** for blockchain backends. The language doesn't determine success—architecture does.
+### 🎯 **The Real Reason: Building for Billions, Not Just Crypto Natives**
 
----
+> **"We chose PHP 8.3 because Zorah is designed for real-world adoption, not just crypto natives."**
 
-## 📊 Database Schema
+**PHP powers 77% of the web**—WordPress, Laravel, Shopify—because it's **battle-tested for production**. Our architecture separates business logic (PHP) from settlement logic (Moonbeam smart contracts), which means **traditional businesses can integrate Zorah without learning Solidity**.
 
-### 🗄️ MongoDB Collections
+Plus, PHP 8.3's **JIT compiler** and **strict typing** make it perfect for financial operations. We're not building for developers—**we're building for 2 billion underbanked people**. That requires **pragmatic tech choices, not hype-driven ones**.
 
-#### **`accounts` Collection**
-
-```javascript
-{
-  _id: ObjectId("507f1f77bcf86cd799439011"),
-  account_number: "12345-678901",           // User-friendly ID
-  email: "user@example.com",
-  password_hash: "$2y$10$...",              // Bcrypt hashed
-  wallet_address: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb", // Moonbeam
-  encrypted_private_key: "U2FsdGVkX1...",   // AES-256 encrypted
-  balance: {
-    aUSDC: "1000.500000",                   // String for precision
-    lastUpdated: ISODate("2024-11-16T10:30:00Z")
-  },
-  kyc_status: "pending",                    // pending/approved/rejected
-  created_at: ISODate("2024-11-15T12:00:00Z"),
-  updated_at: ISODate("2024-11-16T10:30:00Z")
-}
-```
-
-#### **`transactions` Collection**
-
-```javascript
-{
-  _id: ObjectId("507f1f77bcf86cd799439012"),
-  transaction_hash: "0x8f3e2e0d9c4b1a3f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a",
-  from_account: "12345-678901",             // Zorah account number
-  to_account: "98765-432109",               // Recipient account
-  amount: "50.000000",                      // Precision string
-  token: "aUSDC",
-  type: "deposit",                          // deposit/transfer/withdrawal/escrow
-  status: "confirmed",                      // pending/confirmed/failed
-  block_number: 1234567,
-  block_timestamp: ISODate("2024-11-16T10:25:00Z"),
-  fees: {
-    gas: "0.001234",                        // GLMR/DEV
-    platform: "0.500000"                    // Zorah fee
-  },
-  metadata: {
-    source_chain: "avalanche-fuji",
-    bridge: "axelar",
-    destination_address: "0x742d35Cc..."
-  },
-  created_at: ISODate("2024-11-16T10:24:00Z")
-}
-```
-
-#### **`escrows` Collection**
-
-```javascript
-{
-  _id: ObjectId("507f1f77bcf86cd799439013"),
-  escrow_id: 1,                             // From smart contract
-  seller_account: "12345-678901",
-  buyer_account: "98765-432109",
-  amount: "100.000000",
-  token: "aUSDC",
-  status: "active",                         // active/completed/disputed/cancelled
-  expiry_time: ISODate("2024-11-30T12:00:00Z"),
-  contract_address: "0x...",
-  transaction_hash: "0x...",
-  dispute_id: null,                         // Set if disputed
-  created_at: ISODate("2024-11-16T10:00:00Z")
-}
-```
-
-### ⚡ Redis Cache Keys
-
-```redis
-# User account data (TTL: 5 minutes)
-account:{account_number}
-→ {email, wallet_address, balance, kyc_status}
-
-# Moonbeam balance (TTL: 1 minute)
-balance:{wallet_address}:{token}
-→ {amount, block_number, timestamp}
-
-# Transaction details (TTL: 1 hour)
-tx:{transaction_hash}
-→ {from, to, amount, status, block_number}
-
-# User session (TTL: 24 hours)
-session:{session_id}
-→ {account_number, ip, last_activity}
-
-# Rate limiting (TTL: 1 minute)
-ratelimit:{ip}:{endpoint}
-→ {count, reset_time}
-```
+> **Bottom Line:** PHP 8.3 is a **first-class citizen** for blockchain backends. The language doesn't determine success—architecture does. Zorah's hybrid design puts **user experience first**, blockchain second.
 
 ---
 
@@ -801,7 +702,7 @@ Axelar integration abstracted away.
 </tr>
 </table>
 
-### 🔐 Polkadot Integration Strengths
+### 🔐 Polkadot Integration
 
 ```
 ✅ Moonbeam EVM          →  Leverage Polkadot's shared security
@@ -810,6 +711,8 @@ Axelar integration abstracted away.
 ✅ Parachain-Ready       →  Architecture supports XCM in future
 ✅ Developer Experience  →  Familiar Solidity + EVM tooling
 ```
+
+**Full technical details:** See [Why Polkadot-Moonbeam](#-why-polkadot-moonbeam) section below.
 
 ---
 
@@ -829,232 +732,122 @@ Axelar integration abstracted away.
 
 ---
 
-## 💰 Revenue Model
 
-**Zorah generates revenue through multiple streams, ensuring sustainability and scalability:**
 
-<table>
-<tr>
-<th>Revenue Stream</th>
-<th>Fee Structure</th>
-<th>Annual Projection (2026)</th>
-</tr>
-<tr>
-<td>🔒 <strong>Escrow Fees</strong></td>
-<td><strong>0.5%</strong> per transaction<br/>(capped at $10)</td>
-<td>$40,000-$80,000</td>
-</tr>
-<tr>
-<td>💸 <strong>Transfer Fees</strong></td>
-<td><strong>1%</strong> per transfer<br/>(capped at $10)</td>
-<td>$60,000-$100,000</td>
-</tr>
-<tr>
-<td>💎 <strong>Yield Earnings</strong></td>
-<td>Users get <strong>60%</strong><br/>Zorah retains <strong>40%</strong></td>
-<td>$30,000-$50,000</td>
-</tr>
-<tr>
-<td>🏪 <strong>Merchant Processing</strong></td>
-<td><strong>0.25%</strong> per transaction<br/>(capped at $10)</td>
-<td>$20,000-$40,000</td>
-</tr>
-<tr>
-<td colspan="2" align="right"><strong>Total 2026 Revenue</strong></td>
-<td><strong>$150,000-$270,000</strong></td>
-</tr>
-</table>
+## 📈 Development Roadmap
 
-### 📊 Growth Trajectory (Conservative Projections)
+> **What we're building: Full-featured decentralized banking protocol on Polkadot-Moonbeam**
 
-**User & Business Growth:**
+### 📅 **Phase 1: Hackathon Build (Current - Nov 2025)**
 
-| Year | Users | Businesses | Annual Revenue |
-|:-----|------:|-----------:|---------------:|
-| **2026** | 10,000 | 500 | $150K-$250K |
-| **2027** | 30,000 | 1,500 | $550K-$850K |
-| **2028** | 80,000 | 3,500 | $1.2M-$2M |
-| **2029** | 150,000 | 7,000 | $2.5M-$4M |
-| **2030-2031** | 300,000+ | 15,000+ | $5M-$8M |
+**✅ Completed:**
+- Core escrow smart contract (deployed on Moonbeam testnet)
+- Wallet abstraction with 11-digit account system
+- Cross-chain deposit UI (4 methods: Direct, Bank, Bridge, Payment)
+- Axelar bridge integration for aUSDC deposits
+- Basic balance tracking and transaction history
+- Account creation and authentication
 
-**Revenue Assumptions (Conservative):**
-- Average user completes **3 monthly transfers**
-- **15% of users** use escrow monthly
-- Average escrow value: **$50-$200**
-- Yield-eligible balances average **$150 per user**
-- Businesses process **20-200 monthly transactions**
-
-**These streams compound as transactional activity grows, creating a defensible, high-margin business.**
+**🚧 In Progress (50%):**
+- Escrow UI integration (contract ready, wiring UI)
 
 ---
 
-## 📈 Roadmap (2025-2031)
+### 🎯 **Phase 2: Core Features (Q1 2026)**
 
-> **Long-term vision: 300,000+ users, $5M-8M annual revenue, proprietary cross-chain bridge, and full regulatory licensing**
+**Backend:**
+- Complete escrow UI integration with smart contract
+- P2P fiat withdrawal system (liquidity partner network)
+- Account-to-account internal transfers
+- Transaction history and export features
+- Enhanced security (2FA, withdrawal confirmations)
 
-### 📅 **2025: Foundation & Development**
+**Smart Contracts:**
+- Security audit (CertiK or Trail of Bits)
+- Multi-signature admin controls
+- Emergency pause mechanism improvements
+- Gas optimization
 
-**Q4 2025 (Current - Hackathon Phase)**
-
-- ✅ Core escrow system development
-- ✅ Wallet abstraction with 11-digit accounts
-- ✅ Smart contract deployment on Moonbeam testnet
-- ✅ Axelar bridge integration (aUSDC)
-- ✅ Basic deposit UI (4 tabs)
-- 🚧 Escrow UI integration (50% complete)
-
----
-
-### 🎯 **2026: Launch & Initial Growth**
-
-#### **Q1 2026: Pre-Launch & Beta**
-
-**January-February:**
-- 🔨 Complete escrow UI integration
-- 🔨 Implement P2P fiat withdrawals (LP network)
-- 🔨 Add account-to-account transfers
-- 🔨 Security audit (CertiK or Trail of Bits)
-- 🔨 Basic KYC/KYB integration
-- 🔨 Recruit 100 beta merchants
-- 🔨 Recruit 2,000 beta users
-
-**March 2026: PUBLIC LAUNCH 🚀**
-- ✨ **Official Zorah launch**
-- ✨ Social media campaign
-- ✨ Referral rewards program
-- ✨ Influencer partnerships
-- ✨ Community building (Discord, Telegram, Twitter)
-
-**Target:** 2,000 users, 100 businesses in first 3 months
-
-#### **Q2-Q3 2026: Feature Expansion**
-
-**April-June:**
-- 🚀 Migrate from Axelar to **LayerZero Stargate** (lower fees, faster)
-- 🚀 Support multiple stablecoins (USDC, USDT, DAI)
-- 🚀 Launch **business payment gateway API**
-- 🚀 Implement yield generation (DeFi integration)
-  - Partner with Acala for DOT staking
-  - Integrate with Moonwell (Moonbeam lending protocol)
-- 🚀 Mobile app development starts (React Native)
-
-**July-September:**
-- 🚀 Begin licensing process (PSP, MSB, EMI)
-- 🚀 Enhanced AML/transaction monitoring
-- 🚀 Partnership with compliant liquidity providers
-- 🚀 Merchant dashboard improvements
-- 🚀 Advanced analytics for businesses
-
-**Target:** 10,000 users, 500 businesses by end of Q3
-
-#### **Q4 2026: Token Launch & Scaling**
-
-**October-December:**
-- 💎 **Zorah Token ($ZORA) Development**
-  - Tokenomics finalized
-  - Smart contract audit
-  - Utility design (fee discounts, LP rewards, governance)
-- 💎 **Token Generation Event (TGE)**
-  - Public sale
-  - DEX listings (StellaSwap, BeamSwap on Moonbeam)
-  - Initial liquidity provision
-- 💎 Begin **proprietary cross-chain bridge** development
-- 💎 Mobile app beta launch (iOS & Android)
-
-**Year-End Target:** 10,000+ users, 500+ businesses, $150K-$250K revenue
+**Frontend:**
+- Mobile-responsive dashboard improvements
+- Real-time balance updates (WebSocket/SSE)
+- Transaction notifications
+- KYC integration UI
 
 ---
 
-### 🌐 **2027: Regulatory Compliance & Expansion**
+### 🚀 **Phase 3: Advanced Features (Q2-Q3 2026)**
 
-**Q1-Q2 2027:**
-- 📜 **Licensing completion**
-  - PSP license (Payment Service Provider)
-  - MSB registration (Money Service Business)
-  - EMI license (Electronic Money Institution) - EU
-- 📜 Full KYC/KYB infrastructure
-- 📜 Global expansion (starting with African and Asian markets)
-- 📜 Fiat on-ramp partnerships (Ramp, Transak, MoonPay)
+**Cross-Chain:**
+- Migrate from Axelar to LayerZero Stargate (lower fees)
+- Support multiple stablecoins (USDC, USDT, DAI)
+- Multi-chain deposits (Ethereum, Polygon, Arbitrum, Avalanche)
 
-**Q3-Q4 2027:**
-- 🌍 Mobile app full release
-- 🌍 Business API v2 with webhooks
-- 🌍 Multi-currency support (EUR, GBP, NGN, KES, INR)
-- 🌍 LP network expansion (20+ liquidity partners globally)
-- 🌍 Marketing push in target regions
+**Business Tools:**
+- Payment gateway API for merchants
+- Merchant dashboard with analytics
+- Invoice generation and tracking
+- Webhook notifications for payments
 
-**Year-End Target:** 30,000 users, 1,500 businesses, $550K-$850K revenue
+**DeFi Integration:**
+- Yield generation for idle balances
+- Integration with Moonwell (Moonbeam lending)
 
----
-
-### 🚀 **2028: Proprietary Bridge & DeFi Integration**
-
-**Q1-Q2 2028:**
-- 🔗 **Proprietary Zorah Cross-Chain Bridge launch**
-  - Optimized for stablecoins
-  - Lower fees than Stargate/Axelar
-  - Direct integration with Zorah accounts
-  - Support for 10+ chains (Ethereum, Arbitrum, Optimism, Polygon, BNB, Avalanche, etc.)
-- 🔗 Bridge token ($ZORA) utility expansion
-
-**Q3-Q4 2028:**
-- 💼 **Enterprise tier launch**
-  - Dedicated account managers
-  - Custom payment flows
-  - Bulk payment processing
-  - API rate limit increases
-- 💼 DeFi integrations:
-  - Savings products with guaranteed APY
-  - Stablecoin lending/borrowing
-  - Liquidity provision rewards
-
-**Year-End Target:** 80,000 users, 3,500 businesses, $1.2M-$2M revenue
+**Mobile:****
+- React Native mobile app development
+- Push notifications
+- Biometric authentication
 
 ---
 
-### 🌟 **2029: Market Leadership & Advanced Features**
+### 🌟 **Phase 4: Ecosystem Expansion (Q4 2026 - 2027)**
 
-**Q1-Q2 2029:**
-- 🏆 **NFT-based loyalty program**
-  - Reward tiers based on transaction volume
-  - Exclusive perks for top users
-  - Partnership with Astar for GameFi rewards
-- 🏆 **Privacy features** (Phala Network integration)
-  - Encrypted transaction metadata
-  - Privacy-preserving KYC
-  - Anonymous balance proofs
+**Token Development:**
+- Zorah Token ($ZORA) smart contract
+- Utility: Fee discounts, LP rewards, governance
+- Token audit and testing
 
-**Q3-Q4 2029:**
-- 🏆 Business expansion:
-  - Invoice financing for merchants
-  - Working capital loans
-  - Merchant cash advances
-- 🏆 Regional partnerships (banks, payment processors)
-- 🏆 B2B2C partnerships (e-commerce platforms, gig economy apps)
+**Compliance:**
+- KYC/KYB provider integration
+- AML transaction monitoring
+- Regulatory framework preparation
 
-**Year-End Target:** 150,000 users, 7,000 businesses, $2.5M-$4M revenue
+**Parachain Bridge Development:**
+- Begin proprietary **Polkadot Parachain Bridge** R&D
+- Focus: **Stablecoin bridging** across Polkadot parachains to Moonbeam
+- Support USDC, USDT, DAI from Acala, Parallel, Astar, Centrifuge
+- XCM (Cross-Consensus Messaging) integration
+- Performance optimization for scale
+- Advanced caching and database optimization
 
 ---
 
-### 🎯 **2030-2031: Global Scale & Ecosystem**
+### 🔮 **Phase 5: Long-Term Vision (2028+)**
 
-**2030:**
-- 🌐 **Multi-parachain expansion**
-  - Acala: DeFi yields and DOT staking
-  - Interlay: Bitcoin deposits via trustless bridge
-  - Moonriver: Kusama ecosystem integration
-  - Parallel Finance: Crowdloan rewards integration
-- 🌐 **Zorah Card launch** (physical & virtual debit card)
-- 🌐 Advanced treasury management for businesses
-- 🌐 Insurance fund for user protection
+**Proprietary Polkadot Parachain Bridge:**
+- **Zorah Parachain Bridge** for stablecoin transfers
+- XCM-based routing between parachains and Moonbeam
+- Support stablecoins from: Acala, Parallel Finance, Astar, Centrifuge
+- Lower fees than Axelar/LayerZero for Polkadot ecosystem
+- Direct integration with Zorah account system
+- Gasless bridging for users (fees paid from balance)
 
-**2031:**
-- 🚀 International expansion (Europe, Latin America, Southeast Asia)
-- 🚀 White-label solutions for regional banks
-- 🚀 Zorah Wallet SDK for third-party integrations
-- 🚀 DAO governance for protocol upgrades
+**Astar Network Deployment:**
+- Deploy **Zorah Escrow Protocol** on Astar Network
+- Launch **Yield Vaults** on Astar (stablecoin yields via Astar DeFi)
+- Enable cross-parachain escrow (Moonbeam ↔ Astar)
+- Tap into Astar's dApp staking rewards
 
-**Target:** 300,000+ users, 15,000+ businesses, $5M-$8M annual revenue
+**Polkadot Ecosystem Integration:**
+- XCM channels with Acala, Parallel, Astar, Centrifuge
+- Phala Network for privacy-preserving KYC
+- Multi-parachain stablecoin liquidity pooling
+
+**Advanced Features:**
+- Privacy-preserving transactions (Phala integration)
+- Business lending products (stablecoin collateral)
+- Treasury management tools
+- Debit card (physical + virtual)
 
 ---
 
@@ -1062,41 +855,15 @@ Axelar integration abstracted away.
 
 <div align="center">
 
-| Year | Key Milestone | Users | Businesses | Revenue |
-|:----:|:--------------|------:|-----------:|--------:|
-| **2025** | 🏗️ Hackathon Build | - | - | - |
-| **2026** | 🚀 Public Launch + Token | 10,000 | 500 | $150K-$250K |
-| **2027** | 📜 Licensing + Mobile App | 30,000 | 1,500 | $550K-$850K |
-| **2028** | 🔗 Proprietary Bridge | 80,000 | 3,500 | $1.2M-$2M |
-| **2029** | 🏆 Market Leadership | 150,000 | 7,000 | $2.5M-$4M |
-| **2030-31** | 🌐 Global Scale | 300,000+ | 15,000+ | $5M-$8M |
+| Phase | Timeline | Key Deliverable |
+|:------|:---------|:----------------|
+| **Phase 1** | Nov 2025 | 🏗️ Hackathon MVP + Escrow Contract |
+| **Phase 2** | Q1 2026 | ✅ Complete Core Banking Features |
+| **Phase 3** | Q2-Q3 2026 | 🚀 Multi-Chain + Business Tools |
+| **Phase 4** | Q4 2026-2027 | 💎 Token + Compliance Ready |
+| **Phase 5** | 2028+ | 🌐 Proprietary Bridge + Ecosystem |
 
 </div>
-
----
-
-### 🎯 Growth Strategy
-
-**User Acquisition:**
-- 📱 Referral program (both parties get $5 in aUSDC)
-- 💬 Community building (Discord, Telegram, local meetups)
-- 🎥 Content marketing (YouTube, TikTok financial education)
-- 🤝 Influencer partnerships in target markets
-- 🎓 University partnerships (student accounts)
-
-**Business Acquisition:**
-- 🏪 E-commerce platform integrations (Shopify, WooCommerce, Magento)
-- 💼 Direct sales team for high-value merchants
-- 📊 Case studies and ROI demonstrations
-- 🎁 First 6 months fee-free for early adopters
-- 🌍 Regional payment processor partnerships
-
-**Retention:**
-- 💰 Yield rewards for maintaining balances
-- 🎁 Loyalty NFTs for long-term users
-- 🆓 Fee discounts with $ZORA token staking
-- 🎯 Gamification (transaction milestones, badges)
-- 👥 Superior customer support (24/7 multilingual)
 
 ---
 
@@ -1240,24 +1007,34 @@ Axelar integration abstracted away.
 
 ### 🔮 Future Polkadot Integrations
 
-**Phase 3-4 (2027-2028) - Ecosystem Expansion:**
+**Phase 4-5 (2027-2028+) - Parachain Ecosystem Expansion:**
 
 ```
+🌉 Zorah Parachain Bridge (Proprietary)
+   → Stablecoin bridging across Polkadot parachains to Moonbeam
+   → XCM-based routing: Acala, Parallel, Astar, Centrifuge → Moonbeam
+   → Support: USDC, USDT, DAI, aUSD (Acala's native stablecoin)
+   → Lower fees than external bridges for Polkadot ecosystem
+
+⭐ Astar Network Deployment
+   → Deploy Zorah Escrow Protocol on Astar parachain
+   → Launch Yield Vaults (stablecoin DeFi yields on Astar)
+   → Cross-parachain escrow (Moonbeam ↔ Astar)
+   → Tap into Astar's dApp staking for user rewards
+
 🏦 Acala Integration
-   → Zorah users can access DeFi yields on Acala parachain
-   → Native DOT staking rewards
+   → Bridge aUSD (Acala's native stablecoin) to Zorah
+   → Access Acala's DeFi yields for stablecoins
+   → Enable seamless USDC/USDT → aUSD swaps
 
 🔐 Phala Network
    → Privacy-preserving KYC verification
-   → Encrypted transaction metadata
+   → Encrypted transaction metadata for sensitive business payments
+   → Confidential balance proofs without revealing amounts
 
-🎮 Astar Integration
-   → NFT-based loyalty program
-   → GameFi payment gateway
-
-💱 Interlay (BTC Bridge)
-   → Bitcoin deposits via Interlay's trustless bridge
-   → Enable BTC as collateral for stablecoin loans
+🔗 Parallel Finance
+   → Bridge stablecoins from Parallel to Moonbeam
+   → Leverage Parallel's money market for yields
 ```
 
 > **This is why we chose Polkadot:** It's the only ecosystem that combines Ethereum compatibility with true scalability, security, and native interoperability - the exact stack needed for global banking operations.
@@ -1268,7 +1045,6 @@ Axelar integration abstracted away.
 
 ### ✅ Current Security Measures
 
-- 🔐 **Bcrypt password hashing** with salt
 - 🔑 **AES-256 encryption** for private keys
 - 🔒 **HTTPS-only** communication
 - 🚦 **Rate limiting** on authentication endpoints
@@ -1288,112 +1064,6 @@ Axelar integration abstracted away.
 📋 Anomaly detection for suspicious transactions
 📋 Insurance fund for user protection
 ```
-
----
-
-## 📂 Project Structure
-
-```
-zorah/
-├── 📁 asset/                      # Frontend assets
-│   ├── 📁 script/js/              # JavaScript modules
-│   │   ├── app.js                 # Main application logic
-│   │   ├── bridge.js              # Axelar bridge integration
-│   │   └── general_dashboard.js   # Dashboard controller
-│   ├── 📁 style/css/              # Tailwind CSS
-│   └── 📁 images/                 # UI assets
-│
-├── 📁 template/                   # HTML templates
-│   ├── 📁 home/                   # User interface
-│   │   ├── 📁 modal/              # Modal components
-│   │   │   └── receive.html       # Deposit modal (4 tabs)
-│   │   └── dashboard.html         # Main dashboard
-│   └── 📁 auth/                   # Authentication pages
-│
-├── 📁 kernel/                     # PHP backend core
-│   ├── 📁 Config/                 # Configuration
-│   ├── 📁 Database/               # MongoDB models
-│   ├── 📁 Services/               # Business logic
-│   │   ├── Web3Service.php        # Moonbeam interaction
-│   │   ├── AxelarService.php      # Bridge integration
-│   │   └── AccountService.php     # User accounts
-│   └── 📁 Utils/                  # Helper functions
-│
-├── 📁 contract/                   # Smart contracts
-│   ├── escrow.sol                 # Main escrow contract
-│   ├── README.md                  # Contract documentation
-│   └── 📁 test/                   # Contract tests
-│
-├── 📁 api/                        # REST API endpoints
-│   ├── deposit.php                # Deposit handler
-│   ├── balance.php                # Balance queries
-│   └── transfer.php               # Transfer handler
-│
-├── 📄 composer.json               # PHP dependencies
-├── 📄 package.json                # Node dependencies (Tailwind)
-├── 📄 .env.example                # Environment template
-└── 📄 README.md                   # This file
-```
-
----
-
-## 🤝 Contributing
-
-<div align="center">
-
-**We welcome contributions!** This is an **open-source** project for the Polkadot ecosystem.
-
-[![Contributors](https://img.shields.io/github/contributors/mitmelon/Zorah?style=for-the-badge)](https://github.com/mitmelon/Zorah/graphs/contributors)
-[![Issues](https://img.shields.io/github/issues/mitmelon/Zorah?style=for-the-badge)](https://github.com/mitmelon/Zorah/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/mitmelon/Zorah?style=for-the-badge)](https://github.com/mitmelon/Zorah/pulls)
-
-</div>
-
-### 🛠️ Development Setup
-
-```bash
-# 1. Fork the repository
-# Click "Fork" button on GitHub
-
-# 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/Zorah.git
-cd Zorah
-
-# 3. Add upstream remote
-git remote add upstream https://github.com/mitmelon/Zorah.git
-
-# 4. Create feature branch
-git checkout -b feature/your-feature-name
-
-# 5. Make changes and test locally
-composer install
-npm install
-npm run build
-
-# 6. Commit with descriptive message
-git add .
-git commit -m "feat: Add awesome feature"
-
-# 7. Push to your fork
-git push origin feature/your-feature-name
-
-# 8. Open Pull Request on GitHub
-# Go to your fork and click "New Pull Request"
-```
-
-### 📝 Commit Message Convention
-
-```
-feat: Add new feature
-fix: Bug fix
-docs: Documentation changes
-style: Code style changes (formatting)
-refactor: Code refactoring
-test: Add tests
-chore: Build process or auxiliary tool changes
-```
-
----
 
 ## 🐛 Troubleshooting
 
@@ -1415,55 +1085,15 @@ curl -X POST https://rpc.api.moonbase.moonbeam.network \
 </details>
 
 <details>
-<summary><b>❌ MongoDB connection refused</b></summary>
+<summary><b>❌ Apache/PHP not starting</b></summary>
 
 ```bash
-# Start MongoDB
-mongod --dbpath /path/to/data
+# Check if port 80/443 is already in use
+# In XAMPP/Laragon control panel, start Apache
 
-# Check if running
-ps aux | grep mongod
-
-# Test connection
-mongo --eval "db.adminCommand('ping')"
-```
-
-</details>
-
-<details>
-<summary><b>❌ Redis connection error</b></summary>
-
-```bash
-# Start Redis
-redis-server
-
-# Check if running
-redis-cli ping
-# Should return: PONG
-
-# Test connection
-redis-cli
-> SET test "Hello"
-> GET test
-```
-
-</details>
-
-<details>
-<summary><b>❌ Tailwind styles not loading</b></summary>
-
-```bash
-# Rebuild Tailwind CSS
-cd frontend
-npm run build
-
-# Check dist folder
-ls dist/
-# Should see: main.css
-
-# For development
-npm run dev
-# Watches for changes and auto-rebuilds
+# If port conflict, change Apache port:
+# Edit httpd.conf: Listen 8080
+# Then access: http://localhost:8080/zorah
 ```
 
 </details>
