@@ -295,7 +295,7 @@ Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that 
 ### 🎨 Frontend Stack
 
 - **JavaScript** - Vanilla JS with modern ES6+ features
-- **Tailwind CSS** - Utility-first styling with custom purple/blue theme
+- **Tailwind CSS** - Utility-first styling with custom black/purple theme
 - **Web3.js / Ethers.js** - Wallet connection and transaction signing
 - **Responsive Design** - Mobile-first banking interface
 
@@ -443,64 +443,11 @@ php -S localhost:8000
 
 ```
 Dashboard shows:
-- Your aUSDC balance on Moonbeam
-- Recent transactions
-- Real-time blockchain state updates
-- Transaction history with explorer links
+- Your USD balance on Moonbeam
+- Transaction history
 ```
 
 ---
-
-## 📐 System Architecture
-
-### 🏗️ High-Level Flow
-
-```
-┌──────────────────┐
-│   User Wallet    │  Step 1: User initiates deposit
-│  (Source Chain)  │          from any chain with aUSDC
-│   with aUSDC     │
-└────────┬─────────┘
-         │
-         │ (Axelar Bridge)
-         ▼
-┌──────────────────┐
-│  Axelar Bridge   │  Step 2: Cross-chain message passing
-│  (Cross-Chain    │          & token bridging
-│   Gateway)       │
-└────────┬─────────┘
-         │
-         │ (Moonbeam Network)
-         ▼
-┌──────────────────┐
-│    Moonbeam      │  Step 3: Settlement on Moonbeam
-│ Smart Contracts  │          Contract emits deposit event
-│   (Settlement)   │
-└────────┬─────────┘
-         │
-         │ (Event Listener)
-         ▼
-┌──────────────────┐
-│  PHP Backend     │  Step 4: Backend detects event
-│  (Blockchain     │          Updates MongoDB balance
-│   Listener)      │
-└────────┬─────────┘
-         │
-         │ (Database Update)
-         ▼
-┌──────────────────┐
-│  Redis Cache     │  Step 5: Cache invalidation
-│  (Fast Access)   │          Real-time balance update
-└────────┬─────────┘
-         │
-         │ (WebSocket/SSE)
-         ▼
-┌──────────────────┐
-│    User UI       │  Step 6: UI reflects new balance
-│ (Balance Update) │          ✅ Deposit Complete!
-└──────────────────┘
-```
-
 ### 🎨 Deposit Methods
 
 <table>
@@ -727,8 +674,6 @@ Axelar integration abstracted away.
 | 🔄 P2P transfers planned | Account-to-account transfers coming | Week 3 post-hackathon |
 | 🧪 Testnet only | Mainnet requires security audit | Month 2 post-hackathon |
 | 💵 aUSDC only | Axelar testnet limitation, mainnet supports more | Mainnet migration |
-
-**This is normal for a hackathon.** Core infrastructure is production-ready.
 
 ---
 
@@ -1146,7 +1091,7 @@ composer install -vvv
 
 **MIT License**
 
-Copyright © 2024 Zorah Protocol
+Copyright © 2025 Zorah Protocol
 
 *Open source, built in public, radically useful.*
 
@@ -1160,12 +1105,12 @@ Copyright © 2024 Zorah Protocol
 
 <div align="center">
 
-### 🎨 **Manomite** - Founder & Lead Developer
+### 🎨 **Manomite** - Founder & Lead Developer (Parent Company)
 
 **Full-Stack Blockchain Engineer**
 
 🔹 **Blockchain:** Solidity, Web3.php, Ethers.js  
-🔹 **Backend:** PHP 8.3, MongoDB, Redis  
+🔹 **Backend:** PHP 8.3, MongoDB, Redis, Rust  
 🔹 **Frontend:** JavaScript, Tailwind CSS
 
 [![GitHub](https://img.shields.io/badge/GitHub-mitmelon-black?style=for-the-badge&logo=github)](https://github.com/mitmelon)
@@ -1198,9 +1143,7 @@ Copyright © 2024 Zorah Protocol
 ### 🌐 **Get in Touch**
 
 📧 **Email:** manomitehq@gmail.com  
-🎥 **Demo Video:** [Watch on YouTube](#)  
-📱 **Twitter:** [@mitmelon](https://twitter.com/mitmelon)  
-💻 **GitHub:** [github.com/mitmelon/Zorah](https://github.com/mitmelon/Zorah)
+📱 **Twitter:** [@mitmelon](https://twitter.com/zorahteams)  
 
 ---
 
@@ -1215,26 +1158,6 @@ Copyright © 2024 Zorah Protocol
 
 ---
 
-## 🎯 Hackathon Submission Checklist
-
-<div align="center">
-
-- [x] ✅ **Public GitHub repository** with clean history
-- [x] ✅ **Comprehensive README** with setup instructions
-- [x] ✅ **Demo video** (3 minutes max)
-- [x] ✅ **Deployed smart contracts** on Moonbeam testnet
-- [x] ✅ **Working features** documented with proof
-- [x] ✅ **Architecture diagrams** and flow charts
-- [x] ✅ **Future roadmap** clearly outlined
-- [x] ✅ **Open source license** (MIT)
-- [x] ✅ **Troubleshooting guide** for judges
-- [x] ✅ **Contact information** provided
-
-**Status:** ✨ **Ready for Submission** ✨
-
-</div>
-
----
 
 <div align="center">
 
@@ -1246,13 +1169,5 @@ Copyright © 2024 Zorah Protocol
 
 [![Polkadot](https://img.shields.io/badge/Powered_by-Polkadot-E6007A?style=for-the-badge&logo=polkadot)](https://polkadot.network/)
 [![Moonbeam](https://img.shields.io/badge/Built_on-Moonbeam-53CBC9?style=for-the-badge)](https://moonbeam.network/)
-
----
-
-### 🚀 **[Get Started Now](#-quick-start)** • 🎥 **[Watch Demo](#-demo-video)** • 📖 **[Read Docs](#-tech-stack)**
-
----
-
-<sub>Last updated: November 16, 2025</sub>
 
 </div>
