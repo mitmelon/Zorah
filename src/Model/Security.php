@@ -16,8 +16,13 @@ class Security {
         $this->db = new Connection(DB_NAME, 'security', [
             'fingerprint' => 1,
             'ratelimit_key' => 1,
-            'ip' => 1
+            'ip'
         ]);
+        $this->db->conn->enableEncryption(
+            ['fingerprint', 'code', 'ip'],  // Fields that are encrypted
+            'security_system',          // System-wide key for searchable fields
+            ['fingerprint', 'code', 'ip']   // Searchable encrypted fields
+        );
     }
 
     public function getSecurityByFingerprint(string $fingerprint){
@@ -224,5 +229,21 @@ class Security {
     {
         $result = $this->db->conn->insertOne($verifyData);
         return $result;
+    }
+
+    public function getVerification(array $criteria)
+    {
+        $result = $this->db->conn->find('findOne', $criteria);
+        return $result;
+    }
+
+    public function updateSecurity(array $query, $updateData){
+        try {
+            
+            $security = $this->db->conn->update('updateOne', $query, $updateData);
+            return $security ?: null;
+        } catch (\Exception $e) {
+            throw new \Exception("Error updating security: " . $e->getMessage());
+        }
     }
 }

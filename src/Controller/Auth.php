@@ -133,25 +133,9 @@ class Auth
 
         $device['ip'] = $ip;
         $networkInfo = $this->network->getInfo($ip);
-        $country = $networkInfo['countryName'] ?? '';
+        $country = $networkInfo['countryName'] ?? 'Nigeria';
 
-        if (empty($country)) {
-            return ['status' => false, 'error' => 'Sorry! we cannot retrieve your country of origin. Kindly switch off any proxy or vpn on your device to continue.'];
-        }
-
-        $streamPipe = json_decode(file_get_contents(SYSTEM_DIR . '/files/countries/country-by-abbreviation.json'), true);
-        $try = '';
-        foreach ($streamPipe as $co) {
-            if (strtolower($co['country']) === strtolower($country)) {
-                $try = $co['abbreviation'];
-                break;
-            }
-        }
-        if(empty($try)){
-            return ['status' => false, 'error' => 'Sorry! we cannot retrieve your country of origin. Kindly switch off any proxy or vpn on your device to continue.'];
-        }
-
-        $currentTime = $this->date->getCurrentDateTimeByCountry($try);
+        //$currentTime = $this->date->getCurrentDateTimeByCountry($try);
 
         $credentials = [
             'authToken' => $key,
@@ -163,7 +147,7 @@ class Auth
             'account_type' => 'normal',
             'stage' => 'boarding',
             'residential_country' => $country,
-            'country_date_added' => $currentTime,
+            'country_date_added' => $this->date->timestampTimeNow(),
             'network_info' => $networkInfo,
             "created_at" => $this->date->timestampTimeNow(),
             'security' => [

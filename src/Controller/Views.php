@@ -83,9 +83,9 @@ class Views
     }
 
     public function brand_asset(){
-        $logo = $this->fileGrabber->getImage(SYSTEM_DIR . '/assets/logo/logo-white.png', 'assets/logo', true, null);
+        $logo = $this->fileGrabber->getImage(PROJECT_ROOT . '/asset/script/images/brand/logo-bgl.png', true, null);
 
-        $favicon = $this->fileGrabber->getImage(SYSTEM_DIR . '/assets/logo/favicon.png', 'assets/logo', true, null);
+        $favicon = $this->fileGrabber->getImage(PROJECT_ROOT . '/asset/script/images/brand/logo-bgl.png', true, null);
 
         return [
             'logo' => $logo,
@@ -276,11 +276,51 @@ class Views
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-     public function error($message, $code = 500)
+    public function verifyEmail($params)
     {
-        if (empty($message)) {
-            $message = 'Sorry this page you are looking for does not exist. You might be looking for what does not exist in the universe. Please use the button below to find your way out.';
+
+        if (isset($params['id']) and !empty($params['id'])) {
+            $id = $this->filter->strip($params['id']);
+            try {
+
+                //find id from storage
+                $code = (new Secret($id))->decrypt();
+                if(!json_validate($code)){
+                    //Block attempt and log
+                    return $this->message('Invalid payload ', 404);
+                }
+                
+                $code = json_decode($code, true);
+
+                $securityModel = new Reflect('Security');
+                $data = $securityModel->getVerification(['authToken' => $code['key'], 'code' => $code['code'], 'status' => 0, 'expire' => ['$gte' => $this->date->timestampTimeNow()]]);
+
+                if (isset($data['code'])) {
+                    //activate account
+                    $userModel = new Reflect('User');
+                    $userModel->updateUserAccount(['authToken' => $code['key']], ['status' => 1, 'updated_at' => $this->date->timestampTimeNow()]);
+
+                    $securityModel->updateSecurity(['authToken' => $code['key'], 'code' => $code['code']], ['status' => 1, 'updated_at' => $this->date->timestampTimeNow()]);
+                    
+                    //account verified
+                    return $this->message('Congratulations!, your account has been activated. You can now login to your account.', 200);
+                }
+            } catch (\Throwable $e) {
+                new ex('View', 5, $e->getMessage());
+                return $this->message(LANG->get('TECHNICAL_ERROR'), 500);
+            }
         }
+        return $this->message('Email could not be verified or already verified', 404);
+        //exit($this->message(json_encode($code), '404'));
+    }
+
+
+     public function message($message, $code = 500)
+     {
+        if (empty($message)) {
+            $message = 'Sorry this page you are looking for does not exist. You might be looking for what does not exist in the universe. Please use the button below to find your way out. Thank you';
+        }
+
         $header = $this->getHeader();
 
         $type = match($code){
@@ -291,18 +331,17 @@ class Views
         $content = array(
             'template' => '',
             'title' => $code . ' | ' . APP_NAME,
-            'error' => $code,
+            'message_code' => $code,
             'type' => $type,
             'message' => $message,
-            'lang_meta_desc' => LANG->get('meta_desc'),
-            'root' => APP_DOMAIN . '/home/',
+            'root' => APP_DOMAIN . '/home',
             'app_name' => $header['app_name'],
             'logo' => $header['logo'],
             'favicon' => $header['favicon'],
             'time' => $this->date->now()
         );
-        //$template = BODY_TEMPLATE_FOLDER . '/error.html';
-        exit($message);
+        $template = BODY_TEMPLATE_FOLDER . '/error.html';
+        return $this->single($template, $content);
     }
 
     private function view($body, $content, $head, $footer)

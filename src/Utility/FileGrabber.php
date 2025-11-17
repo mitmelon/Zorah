@@ -10,31 +10,24 @@ include __DIR__ . '/../../autoload.php';
 class FileGrabber
 {
 
-    public function getImage($file, $type, $isScript = false, $user = null, $default = null){
-        $dir = SYSTEM_DIR;
-        if(!is_dir($dir)){
-            mkdir($dir, 0600, true);
-        }
+    public function getImage($file, $isScript = false, $user = null, $default = null){
+
         $adapter = new CacheAdapter();
-        $key = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/s', '', strip_tags(str_replace(array('/', '//', '\'', '\\', chr(0), ' ', '.', '-', '_'), '', $file.$type.$isScript.$user.'images'))));
+        $key = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/s', '', strip_tags(str_replace(array('/', '//', '\'', '\\', chr(0), ' ', '.', '-', '_'), '', $file.$isScript.$user.'images'))));
         $cache = $adapter->getCache($key);
         if($cache !== null){
-            //return json_decode($cache, true);
+            return json_decode($cache, true);
         }
-        $image = false;
         if (!empty($file)) {
-            $file = basename($file);
-            $im = $dir.'/'.$type.'/'.$file;
-            if (file_exists($im)) {
-                $image = $dir.'/'.$type.'/'.$file;
-                $extension = pathinfo($im, PATHINFO_EXTENSION);
+            if (file_exists($file)) {
+                $extension = pathinfo($file, PATHINFO_EXTENSION);
                 if ($isScript) {
-                    $blob = @file_get_contents($im);
+                    $blob = @file_get_contents($file);
                     $blob = base64_encode($blob);
-                    $image = 'data:image/'.$extension.';base64,'.$blob;
+                    $file = 'data:image/'.$extension.';base64,'.$blob;
                 }
-                $adapter->cache(json_encode($image), $key, 86400);
-                return $image;
+                $adapter->cache(json_encode($file), $key, 86400);
+                return $file;
             }
         }
         if($default !== null){

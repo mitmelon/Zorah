@@ -480,15 +480,10 @@ $(window).on('load', function () {
 
         general.ajaxFormData('.zorah-register', 'POST', BASE + 'src/Processor/Auth/auth.php', formData, '#submit', button, function (data) {
             $('#modalScreen').html(general.modalNote('Registration Successful', data.message, 'success'));
-            modalController('modalNote', { bgClose: false, keyboard: false })
-            .then(modal => {
-                modal.show();
-                modal.setSize('full');
-            })
             $('#submit').attr('disabled', true);
             $('#submit').attr('style', 'opacity: 0.5');
             document.querySelector('#submit').style.pointerEvents = "none";
-            $('#submit').html('Redirecting...');
+            $('#submit').html('Registered. Now redirecting...');
             setTimeout(function () {
                 general.redirect(data.base + 'home');
             }, 8000);

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/x-icon" href="[$favicon]">
+    <title>[$title]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 48px;
+            position: relative;
+        }
+        
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .content-wrapper {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Status Icon */
+        .status-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: relative;
+            animation: fadeInScale 0.6s ease-out;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(168, 85, 247, 0);
+            }
+        }
+        
+        .status-icon.success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 3px solid rgba(16, 185, 129, 0.5);
+            animation: fadeInScale 0.6s ease-out, pulse 2s infinite;
+        }
+        
+        .status-icon.error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            border: 3px solid rgba(239, 68, 68, 0.5);
+        }
+        
+        .status-icon.warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+            border: 3px solid rgba(245, 158, 11, 0.5);
+        }
+        
+        .status-icon.info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+            border: 3px solid rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Status Code Badge */
+        .status-code {
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #a855f7;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Message Title */
+        .message-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .message-title.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .message-title.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Message Content */
+        .message-content {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 32px 0;
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .message-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .message-content a {
+            color: #a855f7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .message-content a:hover {
+            color: #c084fc;
+        }
+        
+        /* Timestamp */
+        .timestamp {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            margin: 20px 0;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+            animation: fadeIn 1.4s ease-out;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            padding: 16px 40px;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 39px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 30px 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            background: #000;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 60px 24px;
+            }
+            
+            .message-title {
+                font-size: 36px;
+            }
+            
+            .status-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+            }
+            
+            .message-content {
+                padding: 24px;
+                font-size: 16px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-gradient"></div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-wrapper">
+            <!-- Status Icon -->
+            <div class="status-icon" id="statusIcon">
+                <span id="statusEmoji"></span>
+            </div>
+            
+            <!-- Status Code -->
+            <div class="status-code">
+                CODE: [$message_code]
+            </div>
+            
+            <!-- Title -->
+            <h1 class="message-title" id="messageTitle"></h1>
+            
+            <!-- Message Content -->
+            <div class="message-content">
+                [$message]
+            </div>
+            
+            <!-- Timestamp -->
+            <div class="timestamp">
+                [$time]
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="[$root]" class="btn-primary">Go to Homepage</a>
+                <a href="javascript:history.back()" class="btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-text">
+            <img src="[$logo]" alt="[$app_name]" style="height: 24px; vertical-align: middle; margin-right: 8px;">
+            &copy; 2025 [$app_name]. All rights reserved.
+        </div>
+    </footer>
+    
+    <script>
+        const messageCode = parseInt('[$message_code]');
+        const type = '[$type]';
+        const statusIcon = document.getElementById('statusIcon');
+        const statusEmoji = document.getElementById('statusEmoji');
+        const messageTitle = document.getElementById('messageTitle');
+        
+        // Determine status based on code and type
+        if (messageCode === 200 || type === 'success') {
+            statusIcon.className = 'status-icon success';
+            statusEmoji.textContent = '✓';
+            messageTitle.textContent = 'Success!';
+            messageTitle.className = 'message-title success';
+        } else if (messageCode >= 400 && messageCode < 500) {
+            statusIcon.className = 'status-icon warning';
+            statusEmoji.textContent = '⚠';
+            messageTitle.textContent = 'Attention Required';
+            messageTitle.className = 'message-title error';
+        } else if (messageCode >= 500) {
+            statusIcon.className = 'status-icon error';
+            statusEmoji.textContent = '✕';
+            messageTitle.textContent = 'Server Error';
+            messageTitle.className = 'message-title error';
+        } else if (type === 'info') {
+            statusIcon.className = 'status-icon info';
+            statusEmoji.textContent = 'ℹ';
+            messageTitle.textContent = 'Information';
+            messageTitle.className = 'message-title';
+        } else {
+            statusIcon.className = 'status-icon error';
+            statusEmoji.textContent = '✕';
+            messageTitle.textContent = 'Error';
+            messageTitle.className = 'message-title error';
+        }
+    </script>
+</body>
+</html>

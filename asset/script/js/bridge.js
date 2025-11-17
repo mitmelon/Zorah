@@ -298,7 +298,14 @@ class AxelarBridge {
             this.signer = await provider.getSigner();
             this.rawProvider = injected;
             const address = await this.signer.getAddress();
-            const network = await provider.getNetwork();
+            
+            // Force fresh network detection to avoid cached network issues
+            let network;
+            try {
+                network = await provider.detectNetwork();
+            } catch (e) {
+                network = await provider.getNetwork();
+            }
             
             console.log('Wallet connected:', address);
             
@@ -604,13 +611,23 @@ class AxelarBridge {
 
             // 3. Get current network and verify it matches source chain
             const provider = this.signer.provider;
-            const network = await provider.getNetwork();
+            
+            // Force refresh network to avoid cached network issues
+            let network;
+            try {
+                // Detect network change by calling getNetwork with fresh state
+                network = await provider.detectNetwork();
+            } catch (e) {
+                // Fallback to regular getNetwork if detectNetwork not available
+                network = await provider.getNetwork();
+            }
+            
             const expectedChainId = this.config.environment === 'mainnet' 
                 ? this.chains[sourceChain].id 
                 : this.chains[sourceChain].testnetId;
 
             if (Number(network.chainId) !== expectedChainId) {
-                throw new Error(`Please switch to ${this.chains[sourceChain].axelarName} network`);
+                throw new Error(`Please switch to ${this.chains[sourceChain].axelarName} network (Expected chainId: ${expectedChainId}, Got: ${network.chainId})`);
             }
 
             // 4. Calculate fees (simple transfer path may not need gas payment step)
@@ -1214,6 +1231,29 @@ class AxelarBridge {
      */
     getSupportedTokens() {
         return Object.keys(this.tokens[this.config.environment]);
+    }
+
+    /**
+     * Get blockchain explorer URL for a transaction
+     * @param {string} chainName - Chain name (ethereum, polygon, etc.)
+     * @param {string} txHash - Transaction hash
+     * @returns {string} Explorer URL
+     */
+    getExplorerUrl(chainName, txHash) {
+        const isTestnet = this.config.environment === 'testnet';
+        const explorers = {
+            ethereum: isTestnet ? 'https://sepolia.etherscan.io' : 'https://etherscan.io',
+            polygon: isTestnet ? 'https://amoy.polygonscan.com' : 'https://polygonscan.com',
+            avalanche: isTestnet ? 'https://testnet.snowtrace.io' : 'https://snowtrace.io',
+            bsc: isTestnet ? 'https://testnet.bscscan.com' : 'https://bscscan.com',
+            moonbeam: isTestnet ? 'https://moonbase.moonscan.io' : 'https://moonscan.io',
+            arbitrum: isTestnet ? 'https://sepolia.arbiscan.io' : 'https://arbiscan.io',
+            optimism: isTestnet ? 'https://sepolia-optimism.etherscan.io' : 'https://optimistic.etherscan.io',
+            base: isTestnet ? 'https://sepolia.basescan.org' : 'https://basescan.org'
+        };
+        
+        const baseUrl = explorers[chainName] || explorers.ethereum;
+        return `${baseUrl}/tx/${txHash}`;
     }
 
     /**

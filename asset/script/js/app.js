@@ -1166,42 +1166,141 @@ $(window).on('load', function () {
 
                     showStep('processing');
                     updateStepStatus('Approval', 'processing');
-                    // Gas step may be skipped in simple path; keep idle
+                    updateStepStatus('Gas', 'idle');
+                    updateStepStatus('Bridge', 'idle');
 
                     try {
-                        const result = await bridgeInstance.executeBridge(chain, destination, amount, token);
-                        // Mark steps done
-                        updateStepStatus('Approval', 'complete');
-                        const tracking = result?.trackingUrl;
-                        updateStepStatus('Bridge', 'complete', tracking || null);
+                        // Create a custom bridge execution with stage tracking
+                        const result = await (async () => {
+                            const bridgeExecution = bridgeInstance.executeBridge(chain, destination, amount, token);
+                            
+                            // Hook into bridge execution to track stages
+                            // Since executeBridge returns transactions object, we need to track it differently
+                            const originalThen = bridgeExecution.then.bind(bridgeExecution);
+                            let stageTracker = null;
+                            
+                            // Start monitoring console logs for stage completion
+                            const originalConsoleLog = console.log;
+                            const txHashes = { approve: null, gasPayment: null, bridge: null };
+                            
+                            console.log = function(...args) {
+                                const msg = args.join(' ');
+                                
+                                // Stage 1: Approval TX detected
+                                if (msg.includes('Approve TX:')) {
+                                    const hash = args[1];
+                                    txHashes.approve = hash;
+                                    const explorerUrl = bridgeInstance.getExplorerUrl(chain, hash);
+                                    setTimeout(() => {
+                                        updateStepStatus('Approval', 'processing');
+                                    }, 100);
+                                }
+                                // Stage 1 complete: Token approved
+                                else if (msg.includes('✓ Token approved')) {
+                                    const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.approve);
+                                    setTimeout(() => {
+                                        updateStepStatus('Approval', 'complete', explorerUrl);
+                                        // Check if using simple transfer or contract call
+                                        if (msg.includes('Simple transfer') || !msg.includes('Step 2/3')) {
+                                            // Simple path - move directly to bridge
+                                            updateStepStatus('Bridge', 'processing');
+                                        } else {
+                                            // Complex path - move to gas payment
+                                            updateStepStatus('Gas', 'processing');
+                                        }
+                                    }, 500);
+                                }
+                                // Stage 2: Gas payment TX detected (only for complex path)
+                                else if (msg.includes('Gas payment TX:')) {
+                                    const hash = args[1];
+                                    txHashes.gasPayment = hash;
+                                    const explorerUrl = bridgeInstance.getExplorerUrl(chain, hash);
+                                    setTimeout(() => {
+                                        updateStepStatus('Gas', 'processing');
+                                    }, 100);
+                                }
+                                // Stage 2 complete: Gas paid
+                                else if (msg.includes('✓ Gas paid')) {
+                                    const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.gasPayment);
+                                    setTimeout(() => {
+                                        updateStepStatus('Gas', 'complete', explorerUrl);
+                                        updateStepStatus('Bridge', 'processing');
+                                    }, 500);
+                                }
+                                // Stage 2 (simple) or Stage 3 (complex): Bridge TX detected
+                                else if (msg.includes('Bridge TX:')) {
+                                    const hash = args[1];
+                                    txHashes.bridge = hash;
+                                    setTimeout(() => {
+                                        updateStepStatus('Bridge', 'processing');
+                                    }, 100);
+                                }
+                                // Final stage complete: Bridge confirmed
+                                else if (msg.includes('✓ Bridge transaction confirmed')) {
+                                    const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.bridge);
+                                    setTimeout(() => {
+                                        updateStepStatus('Bridge', 'complete', explorerUrl);
+                                    }, 500);
+                                }
+                                
+                                return originalConsoleLog.apply(console, args);
+                            };
+                            
+                            try {
+                                const result = await bridgeExecution;
+                                console.log = originalConsoleLog;
+                                return result;
+                            } catch (error) {
+                                console.log = originalConsoleLog;
+                                throw error;
+                            }
+                        })();
+
                         toastSuccess('Bridge transaction submitted');
 
-                        // Enable status checker
-                        if (checkBtn && statusBox) {
-                            checkBtn.classList.remove('hidden');
-                            checkBtn.onclick = async () => {
-                                try {
-                                    statusBox.classList.remove('hidden');
-                                    statusBox.innerHTML = '<div class="text-gray-300">Checking status...</div>';
-                                    const status = await bridgeInstance.getTransactionStatus(result.mainTxHash, result.sourceChain);
-                                    const ok = status.executed;
-                                    const cls = ok ? 'text-emerald-400' : (status.error ? 'text-red-400' : 'text-yellow-400');
-                                    const scan = `https://${bridgeInstance.config.environment === 'testnet' ? 'testnet.' : ''}axelarscan.io/gmp/${result.mainTxHash}`;
-                                    statusBox.innerHTML = `<div class="space-y-2">
-                                        <div class="${cls} font-semibold">${ok ? 'Completed' : (status.error ? 'Failed' : 'Pending')}</div>
-                                        <div class="text-gray-300">From: ${status.sourceChain} → ${status.destinationChain}</div>
-                                        <div class="text-gray-300">Amount: ${status.amount} ${status.token}</div>
-                                        <a class="text-purple-300 hover:text-purple-200" href="${scan}" target="_blank">View on AxelarScan</a>
-                                        ${status.error ? `<div class="text-red-400 text-sm">${status.error}</div>` : ''}
-                                    </div>`;
-                                } catch (er3) {
-                                    statusBox.classList.remove('hidden');
-                                    statusBox.innerHTML = `<div class="text-red-400">Failed to fetch status: ${er3.message}</div>`;
-                                }
-                            };
-                        }
+                        // Show bridge data summary
+                        setTimeout(() => {
+                            if (statusBox) {
+                                statusBox.classList.remove('hidden');
+                                statusBox.innerHTML = `<div class="space-y-2">
+                                    <div class="text-emerald-400 font-semibold">Bridge Initiated Successfully</div>
+                                    <div class="text-gray-300">From: ${chain.charAt(0).toUpperCase() + chain.slice(1)} → Moonbeam</div>
+                                    <div class="text-gray-300">Amount: ${amount} ${token}</div>
+                                    <div class="text-gray-400 text-xs">Transaction Hash: ${result.mainTxHash.slice(0, 10)}...${result.mainTxHash.slice(-8)}</div>
+                                    <div class="text-gray-400 text-xs">Estimated arrival: 2-5 minutes</div>
+                                </div>`;
+                            }
+                        }, 1000);
+
+                        // Enable status checker after all stages complete
+                        setTimeout(() => {
+                            if (checkBtn && statusBox) {
+                                checkBtn.classList.remove('hidden');
+                                checkBtn.onclick = async () => {
+                                    try {
+                                        statusBox.classList.remove('hidden');
+                                        statusBox.innerHTML = '<div class="text-gray-300">Checking status...</div>';
+                                        const status = await bridgeInstance.getTransactionStatus(result.mainTxHash, result.sourceChain);
+                                        const ok = status.executed;
+                                        const cls = ok ? 'text-emerald-400' : (status.error ? 'text-red-400' : 'text-yellow-400');
+                                        const scan = `https://${bridgeInstance.config.environment === 'testnet' ? 'testnet.' : ''}axelarscan.io/gmp/${result.mainTxHash}`;
+                                        statusBox.innerHTML = `<div class="space-y-2">
+                                            <div class="${cls} font-semibold">${ok ? 'Completed' : (status.error ? 'Failed' : 'Pending')}</div>
+                                            <div class="text-gray-300">From: ${status.sourceChain} → ${status.destinationChain}</div>
+                                            <div class="text-gray-300">Amount: ${status.amount} ${status.token}</div>
+                                            <a class="text-purple-300 hover:text-purple-200" href="${scan}" target="_blank">View on AxelarScan</a>
+                                            ${status.error ? `<div class="text-red-400 text-sm">${status.error}</div>` : ''}
+                                        </div>`;
+                                    } catch (er3) {
+                                        statusBox.classList.remove('hidden');
+                                        statusBox.innerHTML = `<div class="text-red-400">Failed to fetch status: ${er3.message}</div>`;
+                                    }
+                                };
+                            }
+                        }, 1500);
                     } catch (err) {
                         updateStepStatus('Approval', 'idle');
+                        updateStepStatus('Gas', 'idle');
                         updateStepStatus('Bridge', 'idle');
                         // User cancellation handling
                         const msg = (err && (err.message || err.reason)) || 'Bridge failed';
