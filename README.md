@@ -23,6 +23,10 @@
 
 ## 💡 What is Zorah?
 
+> ⚠️ **Under Development — Use Only For Testing**  
+> This project is under active development and expected to launch by **March 2026**. Do **not** use real funds or production assets here until the official launch. Use this repository only for development and testing purposes.
+
+
 **Zorah is a global banking protocol that makes crypto feel like traditional banking—simple, secure, and familiar—while delivering the power of blockchain underneath.**
 
 ### 🎯 **In Simple Terms:**
@@ -203,38 +207,38 @@ Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
-│  🏦  WALLET ABSTRACTION                                        │
-│  → Users get familiar 11-digit account numbers                 │
-│  → Behind the scenes: Encrypted EVM wallets on Moonbeam       │
-│  → Non-custodial - users own their keys (encrypted)           │
+│  🏦  WALLET ABSTRACTION                                         │
+│  → Users get familiar 11-digit account numbers                  │
+│  → Behind the scenes: Encrypted EVM wallets on Moonbeam         │
+│  → Non-custodial - users own their keys (encrypted)             │
 │                                                                 │
-│  💰  MULTIPLE DEPOSIT METHODS                                  │
-│  → Direct account-to-account (A2A) transfers                  │
-│  → Bank transfer via P2P escrow with liquidity partners       │
-│  → Cross-chain deposits via Axelar (dev) / Stargate (prod)   │
-│  → Merchant payment collections for businesses                │
+│  💰  MULTIPLE DEPOSIT METHODS                                   │
+│  → Direct account-to-account (A2A) transfers                    │
+│  → Bank transfer via P2P escrow with liquidity partners         │
+│  → Cross-chain deposits via Axelar (dev) / Stargate (prod)      │
+│  → Merchant payment collections for businesses                  │
 │                                                                 │
-│  🔒  SMART ESCROW SYSTEM                                       │
-│  → Trustless P2P and B2B transactions                         │
-│  → Automated dispute resolution with juror voting             │
-│  → 0.5% escrow fee (capped at $10)                           │
-│  → Time-locked contracts with expiry protection               │
+│  🔒  SMART ESCROW SYSTEM                                        │
+│  → Trustless P2P and B2B transactions                           │
+│  → Automated dispute resolution with juror voting               │
+│  → 0.5% escrow fee (capped at $10)                              │
+│  → Time-locked contracts with expiry protection                 │
 │                                                                 │
-│  💸  ULTRA-LOW FEES                                            │
-│  → 1% transfer fee (capped at $10) vs 6-8% banks             │
-│  → 0.25% merchant processing (capped at $10)                 │
-│  → Powered by Moonbeam's ~$0.01 gas costs                     │
-│  → No hidden fees, full transparency                          │
+│  💸  ULTRA-LOW FEES                                             │
+│  → 1% transfer fee (capped at $10) vs 6-8% banks                │
+│  → 0.25% merchant processing (capped at $10)                    │
+│  → Powered by Moonbeam's ~$0.01 gas costs                       │
+│  → No hidden fees, full transparency                            │
 │                                                                 │
-│  📊  REAL-TIME BALANCES                                        │
-│  → Backend reads directly from Moonbeam smart contracts       │
-│  → No custodial risk, full transparency                       │
-│  → Stablecoin-based (USD-equivalent)                          │
+│  📊  REAL-TIME BALANCES                                         │
+│  → Backend reads directly from Moonbeam smart contracts         │
+│  → No custodial risk, full transparency                         │
+│  → Stablecoin-based (USD-equivalent)                            │
 │                                                                 │
-│  💎  SAVINGS & YIELD                                           │
-│  → Users earn 60% of generated yield                          │
-│  → Zorah retains 40% for sustainability                       │
-│  → Optional feature for passive income                        │
+│  💎  SAVINGS & YIELD                                            │
+│  → Users earn 60% of generated yield                            │
+│  → Zorah retains 40% for sustainability                         │
+│  → Optional feature for passive income                          │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -273,7 +277,7 @@ Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that 
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                    🖥️  APPLICATION LAYER                    │
+│                    🖥️  APPLICATION LAYER                   │
 ├────────────────────────────────────────────────────────────┤
 │  PHP 8.3         │  Modern PHP with JIT, typed properties  │
 │  MongoDB         │  Document DB for accounts & history     │
@@ -282,7 +286,7 @@ Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that 
 └────────────────────────────────────────────────────────────┘
                               ↓
 ┌────────────────────────────────────────────────────────────┐
-│                   ⛓️  SETTLEMENT LAYER                      │
+│                   ⛓️  SETTLEMENT LAYER                     │
 ├────────────────────────────────────────────────────────────┤
 │  Moonbeam        │  EVM-compatible Polkadot parachain      │
 │  Solidity        │  Smart contracts (Escrow, Deposits)     │
@@ -312,14 +316,14 @@ Imagine if **Venmo** had a baby with **Wise** (formerly TransferWise), and that 
 
 <div align="center">
 
-### 🌕 Moonbase Alpha Testnet
+### 🌕 Moonbase Alpha Testnet (Deployed)
 
-**Escrow Contract:**
+**Escrow Contract (Moonbase Alpha Testnet):**
 
 ```
-Contract Address: [Your Deployed Address]
+Contract Address: 0x9cA862b170Bd235Dd1A396b2da6b36A15108A3BB
 Network: Moonbase Alpha (Chain ID: 1287)
-Explorer: https://moonbase.moonscan.io
+Explorer: https://moonbase.moonscan.io/address/0x9cA862b170Bd235Dd1A396b2da6b36A15108A3BB
 ```
 
 **Network Details:**
@@ -327,6 +331,8 @@ Explorer: https://moonbase.moonscan.io
 RPC URL: https://rpc.api.moonbase.moonbeam.network
 Chain ID: 1287
 Symbol: DEV
+Block Explorer: https://moonbase.moonscan.io
+```
 Block Explorer: https://moonbase.moonscan.io
 ```
 
