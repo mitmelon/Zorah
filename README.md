@@ -582,7 +582,7 @@ Plus, PHP 8.3's **JIT compiler** and **strict typing** make it perfect for finan
 
 ### 🎬 **Watch Zorah in Action** (3 minutes)
 
-[![Zorah Demo](https://img.shields.io/badge/▶️_Watch_Demo-YouTube-red?style=for-the-badge&logo=youtube)](https://youtube.com)
+[![Zorah Demo](https://img.shields.io/badge/▶️_Watch_Demo-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/0wTw1T-E2I8?feature=shared)
 
 **What the video shows:**
 
