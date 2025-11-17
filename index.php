@@ -12,8 +12,7 @@
 use Manomite\Exception\ManomiteException as ex;
 use Manomite\{
     Controller\Auth,
-    Controller\Views,
-    Utility\Notification,
+    Controller\Views
 };
 use Predis\Client;
 use Psr\Http\Message\ResponseInterface as Response;

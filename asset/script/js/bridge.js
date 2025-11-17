@@ -392,117 +392,174 @@ class AxelarBridge {
      */
     async calculateBridgeFees(sourceChain, amount, token = 'USDC', destinationChain = 'moonbeam') {
         console.log('Calculating bridge fees...', { sourceChain, amount, token });
-
-        try {
-            const decimalsForToken = token === 'USDC' || token === 'USDT' || token === 'aUSDC' ? 6 : 18;
-            const { amountHuman, amountWei } = resolveAmountCompat(amount, decimalsForToken);
-            // Use normalized human amount for display, raw wei for fee estimation.
-            // Decide mode for fees: sendToken path does not require gas service
-            const simpleMode = true; // default for our SDK; can be made configurable later
-            let axelarGas = { gasFeeWei: '0', executionFee: '0', baseFee: '0' };
-            if (!simpleMode) {
-                axelarGas = await this.estimateAxelarGas(sourceChain, destinationChain, amountHuman, token);
-            }
-
-            // Token transfer fee estimation (for sendToken path). We attempt API first, fallback to heuristic.
-            const transferFee = await this.estimateTransferTokenFee(sourceChain, destinationChain, token, amountHuman, decimalsForToken);
-
-            // 2. Get current gas price on source chain
-            const provider = this.getProvider(sourceChain);
-            const feeData = await provider.getFeeData();
-            const gasPriceRaw = feeData.gasPrice || feeData.maxFeePerGas || feeData.maxPriorityFeePerGas;
-            if (!gasPriceRaw) {
-                throw new Error('Unable to determine gas price from provider');
-            }
-            const gasPrice = (typeof gasPriceRaw === 'bigint') ? gasPriceRaw : BigInt(gasPriceRaw.toString());
-
-            // 3. Calculate transaction gas costs
-            const approveGas = 50000n;
-            const bridgeGas = 150000n;
-            const gasPaymentGas = simpleMode ? 0n : 100000n;
-            const totalGasNeeded = approveGas + bridgeGas + gasPaymentGas;
-            
-            const sourceChainGasCost = totalGasNeeded * gasPrice;
-            const sourceChainGasCostEther = formatEtherCompat(sourceChainGasCost);
-
-            // 4. Get native token prices in USD
-            const chainInfo = this.chains[sourceChain];
-            const sourceNativePrice = await this.getNativeTokenPrice(sourceChain);
-
-            // 5. Calculate costs in USD
-            const sourceGasCostUSD = (parseFloat(sourceChainGasCostEther) * sourceNativePrice).toFixed(2);
-
-            // 6. Calculate Axelar relayer fee in USD
-            const axelarGasWei = BigInt(axelarGas.gasFeeWei || '0');
-            const axelarGasEther = formatEtherCompat(axelarGasWei);
-            const axelarGasUSD = (parseFloat(axelarGasEther) * sourceNativePrice).toFixed(2);
-
-            // 7. Calculate total fees
-            const totalGasWei = sourceChainGasCost + axelarGasWei;
-            const totalGasEther = formatEtherCompat(totalGasWei);
-            const totalFeeUSD = (parseFloat(sourceGasCostUSD) + parseFloat(axelarGasUSD)).toFixed(2);
-
-            // 8. Net amount received (no token deduction for GMP)
-            // Net received after token transfer fee
-            const displayAmount = amountHuman;
-            const transferFeeHuman = transferFee.amountHuman;
-            const netReceived = Math.max(0, parseFloat(displayAmount) - parseFloat(transferFeeHuman)).toString();
-
-            const result = {
-                sourceChain,
-                destinationChain,
-                amount: displayAmount,
-                token,
-                fees: {
-                    sourceChainGas: {
-                        wei: sourceChainGasCost.toString(),
-                        ether: sourceChainGasCostEther,
-                        usd: sourceGasCostUSD,
-                        nativeToken: chainInfo.nativeToken,
-                        breakdown: {
-                            approveGas: approveGas.toString(),
-                            bridgeGas: bridgeGas.toString(),
-                            gasPaymentGas: gasPaymentGas.toString()
+        const decimalsForToken = token === 'USDC' || token === 'USDT' || token === 'aUSDC' ? 6 : 18;
+        const { amountHuman, amountWei } = resolveAmountCompat(amount, decimalsForToken);
+        const simpleMode = true; // default for our SDK; can be made configurable later
+        let lastError = null;
+        let result = null;
+        let retries = 3;
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+                let axelarGas = { gasFeeWei: '0', executionFee: '0', baseFee: '0' };
+                if (!simpleMode) {
+                    axelarGas = await this.estimateAxelarGas(sourceChain, destinationChain, amountHuman, token);
+                }
+                const transferFee = await this.estimateTransferTokenFee(sourceChain, destinationChain, token, amountHuman, decimalsForToken);
+                const provider = this.getProvider(sourceChain);
+                const feeData = await provider.getFeeData();
+                const gasPriceRaw = feeData.gasPrice || feeData.maxFeePerGas || feeData.maxPriorityFeePerGas;
+                if (!gasPriceRaw) {
+                    throw new Error('Unable to determine gas price from provider');
+                }
+                const gasPrice = (typeof gasPriceRaw === 'bigint') ? gasPriceRaw : BigInt(gasPriceRaw.toString());
+                const approveGas = 50000n;
+                const bridgeGas = 150000n;
+                const gasPaymentGas = simpleMode ? 0n : 100000n;
+                const totalGasNeeded = approveGas + bridgeGas + gasPaymentGas;
+                const sourceChainGasCost = totalGasNeeded * gasPrice;
+                const sourceChainGasCostEther = formatEtherCompat(sourceChainGasCost);
+                const chainInfo = this.chains[sourceChain];
+                const sourceNativePrice = await this.getNativeTokenPrice(sourceChain);
+                const sourceGasCostUSD = (parseFloat(sourceChainGasCostEther) * sourceNativePrice).toFixed(2);
+                const axelarGasWei = BigInt(axelarGas.gasFeeWei || '0');
+                const axelarGasEther = formatEtherCompat(axelarGasWei);
+                const axelarGasUSD = (parseFloat(axelarGasEther) * sourceNativePrice).toFixed(2);
+                const totalGasWei = sourceChainGasCost + axelarGasWei;
+                const totalGasEther = formatEtherCompat(totalGasWei);
+                const totalFeeUSD = (parseFloat(sourceGasCostUSD) + parseFloat(axelarGasUSD)).toFixed(2);
+                const displayAmount = amountHuman;
+                const transferFeeHuman = transferFee.amountHuman;
+                const netReceived = Math.max(0, parseFloat(displayAmount) - parseFloat(transferFeeHuman)).toString();
+                result = {
+                    sourceChain,
+                    destinationChain,
+                    amount: displayAmount,
+                    token,
+                    fees: {
+                        sourceChainGas: {
+                            wei: sourceChainGasCost.toString(),
+                            ether: sourceChainGasCostEther,
+                            usd: sourceGasCostUSD,
+                            nativeToken: chainInfo.nativeToken,
+                            breakdown: {
+                                approveGas: approveGas.toString(),
+                                bridgeGas: bridgeGas.toString(),
+                                gasPaymentGas: gasPaymentGas.toString()
+                            }
+                        },
+                        axelarGas: {
+                            wei: axelarGasWei.toString(),
+                            ether: axelarGasEther,
+                            usd: axelarGasUSD,
+                            nativeToken: chainInfo.nativeToken
+                        },
+                        total: {
+                            wei: totalGasWei.toString(),
+                            ether: totalGasEther,
+                            usd: totalFeeUSD,
+                            nativeToken: chainInfo.nativeToken
                         }
                     },
-                    axelarGas: {
-                        wei: axelarGasWei.toString(),
-                        ether: axelarGasEther,
-                        usd: axelarGasUSD,
-                        nativeToken: chainInfo.nativeToken
+                    transferFee: {
+                        token,
+                        amountHuman: transferFeeHuman,
+                        amountWei: transferFee.amountWei.toString(),
+                        amountFormatted: `${transferFeeHuman} ${token}`
                     },
-                    total: {
-                        wei: totalGasWei.toString(),
-                        ether: totalGasEther,
-                        usd: totalFeeUSD,
-                        nativeToken: chainInfo.nativeToken
-                    }
-                },
-                transferFee: {
-                    token,
-                    amountHuman: transferFeeHuman,
-                    amountWei: transferFee.amountWei.toString(),
-                    amountFormatted: `${transferFeeHuman} ${token}`
-                },
-                netReceived,
-                nativeTokenPrice: sourceNativePrice,
-                estimatedTime: '2-5 minutes',
-                gasPaymentRequired: simpleMode
-                    ? { amount: '0', token: chainInfo.nativeToken, amountFormatted: `0 ${chainInfo.nativeToken}` }
-                    : {
-                        amount: axelarGasWei.toString(),
-                        token: chainInfo.nativeToken,
-                        amountFormatted: `${axelarGasEther} ${chainInfo.nativeToken}`
-                    }
-            };
-
-            console.log('Fees calculated:', result);
-            return result;
-
-        } catch (error) {
-            console.error('Fee calculation failed:', error);
-            throw new Error('Failed to calculate bridge fees: ' + error.message);
+                    netReceived,
+                    nativeTokenPrice: sourceNativePrice,
+                    estimatedTime: '2-5 minutes',
+                    gasPaymentRequired: simpleMode
+                        ? { amount: '0', token: chainInfo.nativeToken, amountFormatted: `0 ${chainInfo.nativeToken}` }
+                        : {
+                            amount: axelarGasWei.toString(),
+                            token: chainInfo.nativeToken,
+                            amountFormatted: `${axelarGasEther} ${chainInfo.nativeToken}`
+                        }
+                };
+                console.log('Fees calculated:', result);
+                return result;
+            } catch (error) {
+                lastError = error;
+                console.warn(`Fee calculation attempt ${attempt} failed:`, error.message);
+                // Only retry for network errors
+                if (error.code !== 'NETWORK_ERROR' && !error.message.includes('network')) {
+                    break;
+                }
+                await new Promise(res => setTimeout(res, 1000 * attempt)); // Exponential backoff
+            }
         }
+        // Fallback: use maximum static fees if all retries fail
+        console.error('Fee calculation failed after retries:', lastError);
+        // Define maximum fallback values (customize as needed)
+        const maxApproveGas = 100000n;
+        const maxBridgeGas = 300000n;
+        const maxGasPaymentGas = 200000n;
+        const maxGasPrice = 100000000000n; // 100 gwei
+        const maxTotalGasNeeded = maxApproveGas + maxBridgeGas + maxGasPaymentGas;
+        const maxSourceChainGasCost = maxTotalGasNeeded * maxGasPrice;
+        const maxSourceChainGasCostEther = formatEtherCompat(maxSourceChainGasCost);
+        const chainInfo = this.chains[sourceChain] || { nativeToken: 'ETH' };
+        const maxSourceNativePrice = 2000; // fallback USD price
+        const maxSourceGasCostUSD = (parseFloat(maxSourceChainGasCostEther) * maxSourceNativePrice).toFixed(2);
+        const maxAxelarGasWei = 500000000000000n; // 0.0005 ETH
+        const maxAxelarGasEther = formatEtherCompat(maxAxelarGasWei);
+        const maxAxelarGasUSD = (parseFloat(maxAxelarGasEther) * maxSourceNativePrice).toFixed(2);
+        const maxTotalGasWei = maxSourceChainGasCost + maxAxelarGasWei;
+        const maxTotalGasEther = formatEtherCompat(maxTotalGasWei);
+        const maxTotalFeeUSD = (parseFloat(maxSourceGasCostUSD) + parseFloat(maxAxelarGasUSD)).toFixed(2);
+        const displayAmount = amountHuman;
+        const transferFeeHuman = '10'; // fallback transfer fee
+        const netReceived = Math.max(0, parseFloat(displayAmount) - parseFloat(transferFeeHuman)).toString();
+        const fallbackResult = {
+            sourceChain,
+            destinationChain,
+            amount: displayAmount,
+            token,
+            fees: {
+                sourceChainGas: {
+                    wei: maxSourceChainGasCost.toString(),
+                    ether: maxSourceChainGasCostEther,
+                    usd: maxSourceGasCostUSD,
+                    nativeToken: chainInfo.nativeToken,
+                    breakdown: {
+                        approveGas: maxApproveGas.toString(),
+                        bridgeGas: maxBridgeGas.toString(),
+                        gasPaymentGas: maxGasPaymentGas.toString()
+                    }
+                },
+                axelarGas: {
+                    wei: maxAxelarGasWei.toString(),
+                    ether: maxAxelarGasEther,
+                    usd: maxAxelarGasUSD,
+                    nativeToken: chainInfo.nativeToken
+                },
+                total: {
+                    wei: maxTotalGasWei.toString(),
+                    ether: maxTotalGasEther,
+                    usd: maxTotalFeeUSD,
+                    nativeToken: chainInfo.nativeToken
+                }
+            },
+            transferFee: {
+                token,
+                amountHuman: transferFeeHuman,
+                amountWei: '0',
+                amountFormatted: `${transferFeeHuman} ${token}`
+            },
+            netReceived,
+            nativeTokenPrice: maxSourceNativePrice,
+            estimatedTime: 'unknown',
+            gasPaymentRequired: simpleMode
+                ? { amount: '0', token: chainInfo.nativeToken, amountFormatted: `0 ${chainInfo.nativeToken}` }
+                : {
+                    amount: maxAxelarGasWei.toString(),
+                    token: chainInfo.nativeToken,
+                    amountFormatted: `${maxAxelarGasEther} ${chainInfo.nativeToken}`
+                }
+        };
+        console.warn('Returning fallback maximum fees:', fallbackResult);
+        return fallbackResult;
     }
 
     /**
@@ -631,16 +688,27 @@ class AxelarBridge {
             }
 
             // 4. Calculate fees (simple transfer path may not need gas payment step)
-            const fees = await this.calculateBridgeFees(sourceChain, amount, token);
+            // Wrap external/internal calls with labeled errors so callers can identify rate-limit sources
+            const wrap = async (label, fn) => {
+                try {
+                    return await fn();
+                } catch (err) {
+                    const e = err instanceof Error ? err : new Error(String(err));
+                    e.message = `${label}: ${e.message}`;
+                    throw e;
+                }
+            };
+
+            const fees = await wrap('calculateBridgeFees', () => this.calculateBridgeFees(sourceChain, amount, token));
 
             // 5. Get addresses
-            const fromAddress = await this.signer.getAddress();
+            const fromAddress = await wrap('getAddress', () => this.signer.getAddress());
             const tokenAddress = this.getTokenAddress(sourceChain, token);
             const gatewayAddress = this.getGatewayAddress();
             const gasServiceAddress = this.getGasServiceAddress();
 
             // 6. Check balances
-            await this.checkBalances(sourceChain, fromAddress, tokenAddress, amount, fees.fees.total.wei);
+            await wrap('checkBalances', () => this.checkBalances(sourceChain, fromAddress, tokenAddress, amount, fees.fees.total.wei));
 
             // 7. Determine bridging mode
             // If destination is EOA and user is not intentionally doing a contract call, use simple sendToken
@@ -655,30 +723,30 @@ class AxelarBridge {
             const decimals = token === 'USDC' || token === 'USDT' ? 6 : 18;
             const { amountWei } = resolveAmountCompat(amount, decimals);
 
-            const approveTx = await tokenContract.approve(gatewayAddress, amountWei);
+            const approveTx = await wrap('tokenApprove', () => tokenContract.approve(gatewayAddress, amountWei));
             transactions.approve = approveTx.hash;
             console.log('Approve TX:', approveTx.hash);
             
-            await approveTx.wait();
+            await wrap('approveWait', () => approveTx.wait());
             console.log('✓ Token approved');
 
             let bridgeTx;
             if (useSimpleTransfer) {
                 console.log('Simple transfer path selected (sendToken).');
                 console.log('Step 2/2: Bridging tokens with sendToken...');
-                bridgeTx = await this.sendToken(
+                bridgeTx = await wrap('sendToken', () => this.sendToken(
                     gatewayAddress,
                     'moonbeam',
                     destinationAddress,
                     token,
                     amount
-                );
+                ));
             } else {
                 // Contract call with token path
                 console.log('Contract call path selected (callContractWithToken).');
                 console.log('Step 2/3: Paying gas to Axelar...');
                 const payload = this.encodePayload(destinationAddress);
-                const gasPaymentTx = await this.payGasForContractCallWithToken(
+                const gasPaymentTx = await wrap('payGasForContractCallWithToken', () => this.payGasForContractCallWithToken(
                     gasServiceAddress,
                     gatewayAddress,
                     'moonbeam',
@@ -687,26 +755,26 @@ class AxelarBridge {
                     token,
                     amount,
                     fees.fees.axelarGas.wei
-                );
+                ));
                 transactions.gasPayment = gasPaymentTx.hash;
                 console.log('Gas payment TX:', gasPaymentTx.hash);
-                await gasPaymentTx.wait();
+                await wrap('gasPaymentWait', () => gasPaymentTx.wait());
                 console.log('✓ Gas paid');
 
                 console.log('Step 3/3: Bridging tokens (contract call)...');
-                bridgeTx = await this.callContractWithToken(
+                bridgeTx = await wrap('callContractWithToken', () => this.callContractWithToken(
                     gatewayAddress,
                     'moonbeam',
                     destinationAddress,
                     payload,
                     token,
                     amount
-                );
+                ));
             }
             transactions.bridge = bridgeTx.hash;
             console.log('Bridge TX:', bridgeTx.hash);
 
-            const receipt = await bridgeTx.wait();
+            const receipt = await wrap('bridgeWait', () => bridgeTx.wait());
             console.log('✓ Bridge transaction confirmed');
 
             const result = {

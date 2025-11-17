@@ -106,15 +106,25 @@ try {
                         $allAccounts = '';
                         $accounts = $accountModel->getAccountsByAuthToken($userData['authToken']);
 
+                        $moonbeam = new MoonbeamWalletManager(CONFIG->get('zorah_environment'), 'moonbeam');
+
                         if (is_array($accounts) && !$arrayAdapter->isEmpty($accounts)) {
                             $template = file_get_contents(__DIR__ . '/../../../' . BODY_TEMPLATE_FOLDER . '/home/inline/accounts.html');
                             foreach ($accounts as $account) {
+                                 //Check smart contract to update balance
+                                $wallet = json_decode($account['wallet'], true);
+                                $balance = $moonbeam->getERC20Balance('0xD1633F7Fb3d716643125d6415d4177bC36b7186b', $wallet['address']);
+
+                                if(isset($balance['formatted']) && !empty($balance['formatted'])){
+                                    $accountModel->updateAccount(['account_id' => $account['account_id']], ['wallet.closing_balance' => $balance['formatted']]);
+                                }
+
                                 $allAccounts .= $route->textRender(
                                     $template,
                                     array(
                                     'account_id' => $account['account_id'],
                                     'account_title' => $account['account_title'],
-                                    'account_balance' => isset($account['wallet']['closing_balance']) ? $account['wallet']['closing_balance'] : $money->format(0, 'USD')
+                                    'account_balance' => isset($wallet['closing_balance']) ? $money->format($wallet['closing_balance'], 'USD') : $money->format(0, 'USD')
                                     )
                                 );
                             }

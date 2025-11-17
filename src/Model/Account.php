@@ -98,5 +98,17 @@ class Account {
         }
     }
 
+    public function updateAccount(array $criteria, array $updateData)
+    {
+        try {
+            $result = $this->db->conn->update('updateOne',
+                $criteria, $updateData
+            );
+            return $result;
+        } catch (\Exception $e) {
+            throw new \Exception("Error updating account: " . $e->getMessage());
+        }
+    }
+
   
 }

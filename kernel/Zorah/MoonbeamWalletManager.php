@@ -48,7 +48,7 @@ class MoonbeamWalletManager
         'testnet' => [
             'moonbeam' => [
                 'name' => 'Moonbase Alpha',
-                'rpc' => 'https://rpc.api.moonbase.moonbeam.network',
+                'rpc' => 'https://moonbase-alpha.drpc.org',
                 'chainId' => 1287,
                 'symbol' => 'DEV',
                 'explorer' => 'https://moonbase.moonscan.io',

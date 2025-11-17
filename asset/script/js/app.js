@@ -925,16 +925,37 @@ $(window).on('load', function () {
             } catch (_) { return { gasText: '-', bridgeText: '-' }; }
         }
 
-        function updateStepStatus(step, status, linkHref) {
-            const row = document.getElementById('bridgeStep' + step);
-            const icon = document.getElementById('bridgeStep' + step + 'Icon');
-            const link = document.getElementById('bridgeStep' + step + 'Link');
+        function setActiveStage(stageId) {
+            const stages = ['bridgeStepApproval', 'bridgeStepGas', 'bridgeStepBridge'];
+            stages.forEach(id => {
+                const row = document.getElementById(id);
+                if (!row) return;
+                if (id === stageId) {
+                    row.classList.add('border-indigo-500', 'bg-indigo-900/40');
+                    row.classList.remove('opacity-50');
+                } else if (row.classList.contains('bg-emerald-900/30')) {
+                    // Completed stage
+                    row.classList.remove('border-indigo-500', 'bg-indigo-900/40');
+                    row.classList.remove('opacity-50');
+                } else {
+                    // Future stage
+                    row.classList.remove('border-indigo-500', 'bg-indigo-900/40');
+                    row.classList.add('opacity-50');
+                }
+            });
+        }
+
+        function updateStepStatus(stageId, status, linkHref) {
+            const row = document.getElementById(stageId);
+            const icon = document.getElementById(stageId + 'Icon');
+            const link = document.getElementById(stageId + 'Link');
             if (!row || !icon) return;
             if (status === 'idle') {
-                row.className = 'flex items-start gap-3 p-3 rounded-lg bg-black/60 border border-white/10';
+                row.className = 'flex items-start gap-3 p-3 rounded-lg bg-black/60 border border-white/10 opacity-50';
                 icon.className = 'w-5 h-5 mt-0.5 rounded-full border-2 border-gray-500';
                 icon.innerHTML = '';
                 if (link) { link.classList.add('hidden'); link.classList.remove('inline-flex'); }
+                setActiveStage(null);
                 return;
             }
             if (status === 'processing') {
@@ -942,6 +963,7 @@ $(window).on('load', function () {
                 icon.className = 'w-5 h-5 mt-0.5 rounded-full border-2 border-indigo-400 flex items-center justify-center';
                 icon.innerHTML = '<svg class="w-3 h-3 text-indigo-300 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
                 if (link) { link.classList.add('hidden'); link.classList.remove('inline-flex'); }
+                setActiveStage(stageId);
                 return;
             }
             if (status === 'complete') {
@@ -958,6 +980,7 @@ $(window).on('load', function () {
                         link.classList.remove('inline-flex');
                     }
                 }
+                setActiveStage(null);
             }
         }
 
@@ -984,9 +1007,9 @@ $(window).on('load', function () {
                 if (l1) { l1.classList.add('hidden'); l1.classList.remove('inline-flex'); }
                 if (l2) { l2.classList.add('hidden'); l2.classList.remove('inline-flex'); }
                 if (l3) { l3.classList.add('hidden'); l3.classList.remove('inline-flex'); }
-                updateStepStatus('Approval', 'idle');
-                updateStepStatus('Gas', 'idle');
-                updateStepStatus('Bridge', 'idle');
+                updateStepStatus('bridgeStepApproval', 'idle');
+                updateStepStatus('bridgeStepGas', 'idle');
+                updateStepStatus('bridgeStepBridge', 'idle');
             }
         }
 
@@ -1165,9 +1188,9 @@ $(window).on('load', function () {
                     }
 
                     showStep('processing');
-                    updateStepStatus('Approval', 'processing');
-                    updateStepStatus('Gas', 'idle');
-                    updateStepStatus('Bridge', 'idle');
+                    updateStepStatus('bridgeStepApproval', 'processing');
+                    updateStepStatus('bridgeStepGas', 'idle');
+                    updateStepStatus('bridgeStepBridge', 'idle');
 
                     try {
                         // Create a custom bridge execution with stage tracking
@@ -1179,7 +1202,7 @@ $(window).on('load', function () {
                             const originalThen = bridgeExecution.then.bind(bridgeExecution);
                             let stageTracker = null;
                             
-                            // Start monitoring console logs for stage completion
+                            // Start monitoring console logs for stage completion using element IDs
                             const originalConsoleLog = console.log;
                             const txHashes = { approve: null, gasPayment: null, bridge: null };
                             
@@ -1192,55 +1215,60 @@ $(window).on('load', function () {
                                     txHashes.approve = hash;
                                     const explorerUrl = bridgeInstance.getExplorerUrl(chain, hash);
                                     setTimeout(() => {
-                                        updateStepStatus('Approval', 'processing');
+                                        updateStepStatus('bridgeStepApproval', 'processing');
                                     }, 100);
                                 }
                                 // Stage 1 complete: Token approved
                                 else if (msg.includes('✓ Token approved')) {
                                     const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.approve);
                                     setTimeout(() => {
-                                        updateStepStatus('Approval', 'complete', explorerUrl);
-                                        // Check if using simple transfer or contract call
-                                        if (msg.includes('Simple transfer') || !msg.includes('Step 2/3')) {
-                                            // Simple path - move directly to bridge
-                                            updateStepStatus('Bridge', 'processing');
-                                        } else {
-                                            // Complex path - move to gas payment
-                                            updateStepStatus('Gas', 'processing');
-                                        }
-                                    }, 500);
+                                        updateStepStatus('bridgeStepApproval', 'complete', explorerUrl);
+                                    }, 100);
+                                }
+                                // Detect which path and move to appropriate next stage
+                                else if (msg.includes('Step 2/2:') || msg.includes('Bridging tokens with sendToken')) {
+                                    // Simple path - skip stage 2 and move directly to bridge stage
+                                    setTimeout(() => {
+                                        updateStepStatus('bridgeStepGas', 'idle'); // Hide or mark stage 2 as idle
+                                        updateStepStatus('bridgeStepBridge', 'processing');
+                                    }, 100);
+                                }
+                                else if (msg.includes('Step 2/3:') || msg.includes('Paying gas to Axelar')) {
+                                    // Complex path - move to gas payment stage
+                                    setTimeout(() => {
+                                        updateStepStatus('bridgeStepGas', 'processing');
+                                    }, 100);
                                 }
                                 // Stage 2: Gas payment TX detected (only for complex path)
                                 else if (msg.includes('Gas payment TX:')) {
                                     const hash = args[1];
                                     txHashes.gasPayment = hash;
                                     const explorerUrl = bridgeInstance.getExplorerUrl(chain, hash);
-                                    setTimeout(() => {
-                                        updateStepStatus('Gas', 'processing');
-                                    }, 100);
                                 }
                                 // Stage 2 complete: Gas paid
                                 else if (msg.includes('✓ Gas paid')) {
                                     const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.gasPayment);
                                     setTimeout(() => {
-                                        updateStepStatus('Gas', 'complete', explorerUrl);
-                                        updateStepStatus('Bridge', 'processing');
-                                    }, 500);
+                                        updateStepStatus('bridgeStepGas', 'complete', explorerUrl);
+                                    }, 100);
                                 }
-                                // Stage 2 (simple) or Stage 3 (complex): Bridge TX detected
+                                // Move to bridge stage after gas payment
+                                else if (msg.includes('Step 3/3:') || msg.includes('Bridging tokens (contract call)')) {
+                                    setTimeout(() => {
+                                        updateStepStatus('bridgeStepBridge', 'processing');
+                                    }, 100);
+                                }
+                                // Bridge TX detected
                                 else if (msg.includes('Bridge TX:')) {
                                     const hash = args[1];
                                     txHashes.bridge = hash;
-                                    setTimeout(() => {
-                                        updateStepStatus('Bridge', 'processing');
-                                    }, 100);
                                 }
                                 // Final stage complete: Bridge confirmed
                                 else if (msg.includes('✓ Bridge transaction confirmed')) {
                                     const explorerUrl = bridgeInstance.getExplorerUrl(chain, txHashes.bridge);
                                     setTimeout(() => {
-                                        updateStepStatus('Bridge', 'complete', explorerUrl);
-                                    }, 500);
+                                        updateStepStatus('bridgeStepBridge', 'complete', explorerUrl);
+                                    }, 100);
                                 }
                                 
                                 return originalConsoleLog.apply(console, args);
@@ -1262,12 +1290,15 @@ $(window).on('load', function () {
                         setTimeout(() => {
                             if (statusBox) {
                                 statusBox.classList.remove('hidden');
+                                const scan = `https://${bridgeInstance.config.environment === 'testnet' ? 'testnet.' : ''}axelarscan.io/transfer/${result.mainTxHash}`;
                                 statusBox.innerHTML = `<div class="space-y-2">
                                     <div class="text-emerald-400 font-semibold">Bridge Initiated Successfully</div>
                                     <div class="text-gray-300">From: ${chain.charAt(0).toUpperCase() + chain.slice(1)} → Moonbeam</div>
                                     <div class="text-gray-300">Amount: ${amount} ${token}</div>
                                     <div class="text-gray-400 text-xs">Transaction Hash: ${result.mainTxHash.slice(0, 10)}...${result.mainTxHash.slice(-8)}</div>
+                                    <a class="text-purple-300 hover:text-purple-200 text-xs" href="${scan}" target="_blank">View on AxelarScan</a>
                                     <div class="text-gray-400 text-xs">Estimated arrival: 2-5 minutes</div>
+                                    <div id="checkStatusBtnContainer"></div>
                                 </div>`;
                             }
                         }, 1000);
@@ -1283,14 +1314,21 @@ $(window).on('load', function () {
                                         const status = await bridgeInstance.getTransactionStatus(result.mainTxHash, result.sourceChain);
                                         const ok = status.executed;
                                         const cls = ok ? 'text-emerald-400' : (status.error ? 'text-red-400' : 'text-yellow-400');
-                                        const scan = `https://${bridgeInstance.config.environment === 'testnet' ? 'testnet.' : ''}axelarscan.io/gmp/${result.mainTxHash}`;
+                                        const scan = `https://${bridgeInstance.config.environment === 'testnet' ? 'testnet.' : ''}axelarscan.io/transfer/${result.mainTxHash}`;
                                         statusBox.innerHTML = `<div class="space-y-2">
                                             <div class="${cls} font-semibold">${ok ? 'Completed' : (status.error ? 'Failed' : 'Pending')}</div>
                                             <div class="text-gray-300">From: ${status.sourceChain} → ${status.destinationChain}</div>
                                             <div class="text-gray-300">Amount: ${status.amount} ${status.token}</div>
                                             <a class="text-purple-300 hover:text-purple-200" href="${scan}" target="_blank">View on AxelarScan</a>
                                             ${status.error ? `<div class="text-red-400 text-sm">${status.error}</div>` : ''}
+                                            <div id="checkStatusBtnContainer"></div>
                                         </div>`;
+                                        // Re-append button below status
+                                        const btnContainer2 = document.getElementById('checkStatusBtnContainer');
+                                        if (btnContainer2) {
+                                            btnContainer2.innerHTML = '';
+                                            btnContainer2.appendChild(checkBtn);
+                                        }
                                     } catch (er3) {
                                         statusBox.classList.remove('hidden');
                                         statusBox.innerHTML = `<div class="text-red-400">Failed to fetch status: ${er3.message}</div>`;
@@ -1299,9 +1337,9 @@ $(window).on('load', function () {
                             }
                         }, 1500);
                     } catch (err) {
-                        updateStepStatus('Approval', 'idle');
-                        updateStepStatus('Gas', 'idle');
-                        updateStepStatus('Bridge', 'idle');
+                        updateStepStatus('bridgeStepApproval', 'idle');
+                        updateStepStatus('bridgeStepGas', 'idle');
+                        updateStepStatus('bridgeStepBridge', 'idle');
                         // User cancellation handling
                         const msg = (err && (err.message || err.reason)) || 'Bridge failed';
                         if (err && (err.code === 4001 || /user rejected|user denied|cancel/i.test(String(err.message || err.reason)))) {
@@ -1680,8 +1718,6 @@ $(window).on('load', function () {
         });
 
     }
-
-
 
 
 
